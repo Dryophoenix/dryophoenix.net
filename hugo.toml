@@ -1,6 +1,6 @@
 baseURL = 'https://dryophoenix.net/'
 languageCode = 'en-us'
-title = 'The Domain of Dryophoenix'
+title = 'dryophoenix.net'
 
 [params]
-  description = 'The personal site of dryophoenix'
+  description = 'Dryo\'s Personal Site'
