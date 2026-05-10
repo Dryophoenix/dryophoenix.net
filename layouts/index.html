@@ -1,0 +1,12 @@
+{{ define "main" }}
+<section class="hero">
+  <h1>{{ .Title }}</h1>
+  <p class="subtitle">{{ .Params.subtitle }}</p>
+  {{ .Content }}
+  <nav class="hero-links">
+    <a href="/about">about</a> &middot;
+    <a href="/portfolio">portfolio</a> &middot;
+    <a href="/cv">cv</a>
+  </nav>
+</section>
+{{ end }}

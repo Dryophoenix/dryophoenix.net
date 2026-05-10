@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ .Site.Params.description }}">
+    <meta name="color-scheme" content="light dark">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pico.classless.css">
+    <link rel="stylesheet" href="/style.css">
+    <!--
+      Apply theme before CSS paints to prevent a flash of the wrong mode.
+      Priority: localStorage (explicit user choice) → prefers-color-scheme → light.
+    -->
+    <script>
+      (function () {
+        var stored = localStorage.getItem('theme');
+        var theme  = stored
+          ? stored
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      }());
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="site-column">
+
+      <header>
+        <nav aria-label="Main navigation">
+          <a href="/" {{ if .IsHome }}aria-current="page"{{ end }}><strong>dryophoenix.net</strong></a>
+          <ul role="list">
+            <li><a href="/about"    {{ if strings.HasPrefix .RelPermalink "/about"    }}aria-current="page"{{ end }}>about</a></li>
+            <li><a href="/portfolio"{{ if strings.HasPrefix .RelPermalink "/portfolio"}}aria-current="page"{{ end }}>portfolio</a></li>
+            <li><a href="/cv"       {{ if strings.HasPrefix .RelPermalink "/cv"       }}aria-current="page"{{ end }}>cv</a></li>
+            <li><a href="/blog"     {{ if strings.HasPrefix .RelPermalink "/blog"     }}aria-current="page"{{ end }}>blog</a></li>
+            <li><a href="/music"    {{ if strings.HasPrefix .RelPermalink "/music"    }}aria-current="page"{{ end }}>music</a></li>
+          </ul>
+          <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle colour scheme"></button>
+        </nav>
+      </header>
+
+      <main id="main-content">
+        {{ block "main" . }}{{ end }}
+      </main>
+
+      <footer>
+        <p>dryophoenix &copy; {{ now.Year }}</p>
+      </footer>
+
+    </div>
+
+    <script>
+      function applyTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+        var btn = document.getElementById('theme-toggle');
+        if (btn) btn.textContent = t === 'dark' ? '[ light mode ]' : '[ dark mode ]';
+      }
+
+      function toggleTheme() {
+        var current = document.documentElement.getAttribute('data-theme');
+        applyTheme(current === 'dark' ? 'light' : 'dark');
+      }
+
+      /* Set initial button label once DOM is ready */
+      (function () {
+        var t   = document.documentElement.getAttribute('data-theme') || 'light';
+        var btn = document.getElementById('theme-toggle');
+        if (btn) btn.textContent = t === 'dark' ? '[ light mode ]' : '[ dark mode ]';
+      }());
+    </script>
+  </body>
+</html>

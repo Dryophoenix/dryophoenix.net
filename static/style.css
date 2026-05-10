@@ -1,0 +1,758 @@
+/* =====================================================
+   dryophoenix.net — forest & rustic theme
+   Fonts: Playfair Display (headings) · Lora (prose)
+          Courier New (nav / mono)
+   ===================================================== */
+
+/* === LIGHT MODE — paper on umber ====================== */
+:root {
+  --col-width:    960px;
+
+  --bg-page:      #8c6535;          /* warm umber          */
+  --page-tex:     rgba(0,0,0,.07);
+
+  --bg-panel:     #f5f0e4;          /* paper               */
+  --text:         #1c1208;          /* ink black           */
+
+  --nav-bg:       #3e2008;          /* dark bark           */
+  --nav-border:   #6b4520;          /* mid umber           */
+  --nav-title-bg: #251305;          /* deepest bark        */
+  --nav-stripe:   #c8902a;          /* amber accent stripe */
+
+  /* nav blocks — earth → forest left→right */
+  --nav-c1:       #5c3815;          /* about      */
+  --nav-c2:       #4a2c0a;          /* portfolio  */
+  --nav-c3:       #6e4818;          /* cv         */
+  --nav-c4:       #5e4215;          /* blog       */
+  --nav-c5:       #4a3510;          /* music      */
+
+  --h1:           #1c1208;
+  --h2:           #3a2810;
+  --h3:           #4a3820;
+  --accent:       #3d5820;
+  --accent-ho:    #2a3d15;
+  --h1-rule:      #5c3815;
+  --muted:        #7a6040;
+  --footer-fg:    #c4a060;
+
+  --tag-bg:       rgba(61,72,24,.12);
+  --tag-fg:       #3d4818;
+  --card-border:  rgba(92,56,21,.25);
+  --card-bg:      #faf6ed;
+}
+
+/* === DARK MODE — eggshell on forest green ============= */
+/*
+   Applied by TWO mechanisms so Firefox's independent theme
+   setting can't break it:
+     1. @media prefers-color-scheme  (automatic, when it works)
+     2. html[data-theme="dark"]      (explicit, set by JS toggle)
+   The [data-theme] selectors have higher specificity than :root
+   inside a media query, so an explicit choice always wins.
+*/
+
+/* Shared dark-mode variable values — defined once as a custom property
+   block, then applied by both the media query and the attribute selector. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page:      #1a0e06;
+    --page-tex:     rgba(255,255,255,.025);
+    --bg-panel:     #1c3826;
+    --text:         #ede8d5;
+    --nav-bg:       #0e0702;
+    --nav-border:   #2d5035;
+    --nav-title-bg: #060402;
+    --nav-stripe:   #4a8a50;
+    --nav-c1:       #2d5838;
+    --nav-c2:       #1e4528;
+    --nav-c3:       #3a5820;
+    --nav-c4:       #2a4a30;
+    --nav-c5:       #1e3a20;
+    --h1:           #ede8d5;
+    --h2:           #c8c098;
+    --h3:           #a8956a;
+    --accent:       #8ac870;
+    --accent-ho:    #a8e090;
+    --h1-rule:      #2d5035;
+    --muted:        #8a9870;
+    --footer-fg:    #5a8850;
+    --tag-bg:       rgba(138,200,112,.15);
+    --tag-fg:       #8ac870;
+    --card-border:  rgba(45,80,53,.5);
+    --card-bg:      #1e4530;
+  }
+}
+
+/* Explicit dark — JS sets this; beats the media query via specificity */
+html[data-theme="dark"] {
+  --bg-page:      #1a0e06;
+  --page-tex:     rgba(255,255,255,.025);
+  --bg-panel:     #1c3826;
+  --text:         #ede8d5;
+  --nav-bg:       #0e0702;
+  --nav-border:   #2d5035;
+  --nav-title-bg: #060402;
+  --nav-stripe:   #4a8a50;
+  --nav-c1:       #2d5838;
+  --nav-c2:       #1e4528;
+  --nav-c3:       #3a5820;
+  --nav-c4:       #2a4a30;
+  --nav-c5:       #1e3a20;
+  --h1:           #ede8d5;
+  --h2:           #c8c098;
+  --h3:           #a8956a;
+  --accent:       #8ac870;
+  --accent-ho:    #a8e090;
+  --h1-rule:      #2d5035;
+  --muted:        #8a9870;
+  --footer-fg:    #5a8850;
+  --tag-bg:       rgba(138,200,112,.15);
+  --tag-fg:       #8ac870;
+  --card-border:  rgba(45,80,53,.5);
+  --card-bg:      #1e4530;
+}
+
+/* Explicit light — overrides the dark media query when user forces light */
+html[data-theme="light"] {
+  --bg-page:      #8c6535;
+  --page-tex:     rgba(0,0,0,.07);
+  --bg-panel:     #f5f0e4;
+  --text:         #1c1208;
+  --nav-bg:       #3e2008;
+  --nav-border:   #6b4520;
+  --nav-title-bg: #251305;
+  --nav-stripe:   #c8902a;
+  --nav-c1:       #5c3815;
+  --nav-c2:       #4a2c0a;
+  --nav-c3:       #6e4818;
+  --nav-c4:       #5e4215;
+  --nav-c5:       #4a3510;
+  --h1:           #1c1208;
+  --h2:           #3a2810;
+  --h3:           #4a3820;
+  --accent:       #3d5820;
+  --accent-ho:    #2a3d15;
+  --h1-rule:      #5c3815;
+  --muted:        #7a6040;
+  --footer-fg:    #c4a060;
+  --tag-bg:       rgba(61,72,24,.12);
+  --tag-fg:       #3d4818;
+  --card-border:  rgba(92,56,21,.25);
+  --card-bg:      #faf6ed;
+}
+
+/* === ACCESSIBILITY ============================================
+   Skip link: visually hidden until focused by keyboard.
+   Focus-visible: explicit, theme-aware outlines for keyboard nav.
+   ============================================================= */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 200;
+  background: var(--nav-title-bg);
+  color: var(--footer-fg);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 1.25rem;
+  border-bottom: 2px solid var(--nav-border);
+  transition: top 0.12s;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;           /* the border already makes it obvious */
+}
+
+/* Keyboard focus rings — use accent colour so they're visible on
+   all panel backgrounds, suppressed for mouse/touch (focus-visible) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 0;
+}
+
+/* In the nav bar use the amber stripe so it contrasts the dark bg */
+.site-column > header > nav > ul > li > a:focus-visible,
+.site-column > header > nav > a:focus-visible,
+.site-column > header > nav .theme-toggle:focus-visible {
+  outline-color: var(--nav-stripe);
+  outline-offset: -2px;  /* inset so it stays inside the block */
+}
+
+/* === PAGE SHELL ================================================
+   Background is set on BOTH html and body so it fills the full
+   viewport in all browsers (Firefox margin-collapse fix: the
+   2.5rem gap is now body padding, not .site-column margin, so
+   it can never collapse through the body boundary).
+   ============================================================= */
+
+html {
+  min-height: 100%;
+  background-color: var(--bg-page);
+  background-image:
+    repeating-linear-gradient(-45deg,
+      transparent 0, transparent 3px,
+      var(--page-tex) 3px, var(--page-tex) 4px);
+}
+
+body {
+  background-color: var(--bg-page);
+  background-image:
+    repeating-linear-gradient(-45deg,
+      transparent 0, transparent 3px,
+      var(--page-tex) 3px, var(--page-tex) 4px);
+  min-height: 100vh;
+  padding: 2.5rem 0;             /* spacing lives here, not on child */
+  font-family: 'Lora', Georgia, 'Times New Roman', serif;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+/* === SITE COLUMN ===============================================
+   Single wrapper div that constrains header + main + footer.
+   Because these are NO LONGER direct children of <body>,
+   Pico's "body > header/main/footer" full-width rules don't fire —
+   no !important needed, and the umber bg shows on both sides.
+   ============================================================= */
+
+.site-column {
+  max-width: var(--col-width);
+  margin: 0 auto;                /* top/bottom spacing is on body */
+  box-sizing: border-box;
+}
+
+/* === BLOCK NAVBAR ============================================== */
+
+.site-column > header {
+  background: var(--nav-bg);
+  border: 2px solid var(--nav-border);
+  overflow: hidden;
+  box-shadow: inset 0 3px 0 var(--nav-stripe);
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+.site-column > header > nav {
+  display: flex;
+  align-items: stretch;
+  padding: 3px 0 0;             /* offset for the accent stripe   */
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Brand — italic Playfair masthead */
+.site-column > header > nav > a {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  background: var(--nav-title-bg);
+  color: var(--footer-fg);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-right: 2px solid var(--nav-border);
+  transition: filter 0.2s;
+}
+
+.site-column > header > nav > a:hover { filter: brightness(1.4); }
+
+/* Nav list */
+.site-column > header > nav > ul {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 0;
+}
+
+.site-column > header > nav > ul > li {
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+}
+
+/* Coloured blocks — earth → forest gradient */
+.site-column > header > nav > ul > li:nth-child(1) > a { background: var(--nav-c1); }
+.site-column > header > nav > ul > li:nth-child(2) > a { background: var(--nav-c2); }
+.site-column > header > nav > ul > li:nth-child(3) > a { background: var(--nav-c3); }
+.site-column > header > nav > ul > li:nth-child(4) > a { background: var(--nav-c4); }
+.site-column > header > nav > ul > li:nth-child(5) > a { background: var(--nav-c5); }
+
+/* Airline style — uppercase Courier, wide tracking, no rounding */
+.site-column > header > nav > ul > li > a,
+.site-column > header > nav > a {
+  border-radius: 0;              /* override Pico's nav link border-radius */
+}
+
+.site-column > header > nav > ul > li > a {
+  display: flex;
+  align-items: center;
+  color: #e8d5a8;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.1rem;
+  text-decoration: none;
+  border-right: 2px solid rgba(255,255,255,.1);
+  margin: 0;
+  transition: filter 0.15s;
+  white-space: nowrap;
+}
+
+.site-column > header > nav > ul > li > a:hover { filter: brightness(1.35); }
+
+/* Active page indicator — underline, not colour-only (WCAG 1.4.1) */
+.site-column > header > nav > ul > li > a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  filter: brightness(1.25);
+}
+
+/* Theme toggle — small, right-aligned inside the nav bar */
+.site-column > header > nav .theme-toggle,
+.theme-toggle {
+  align-self: center;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 0;
+  color: rgba(232,213,168,.55);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.08em;
+  padding: 0.22rem 0.5rem;
+  margin: 0 0.6rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.site-column > header > nav .theme-toggle:hover,
+.theme-toggle:hover {
+  color: rgba(232,213,168,.95);
+  border-color: rgba(255,255,255,.4);
+}
+
+/* === CONTENT PANEL ============================================= */
+
+.site-column > main {
+  background: var(--bg-panel);
+  border: 2px solid var(--nav-border);
+  border-bottom: none;
+  padding: 2.5rem 3rem;
+  min-height: 60vh;
+  color: var(--text);
+}
+
+/* === FOOTER ==================================================== */
+
+.site-column > footer {
+  background: var(--nav-bg);
+  border: 2px solid var(--nav-border);
+  border-top: 1px solid rgba(255,255,255,.06);
+  color: var(--footer-fg);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 0.8rem 1rem;
+}
+
+.site-column > footer p { margin: 0; color: var(--footer-fg); }
+
+/* === CONTENT TYPOGRAPHY ======================================== */
+
+main h1, main h2, main h3, main h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+main h1 {
+  color: var(--h1);
+  border-bottom: 2px solid var(--h1-rule);
+  padding-bottom: 0.4rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+main h2 { color: var(--h2); margin-top: 2rem; font-size: 1.4rem; font-weight: 600; }
+main h3 { color: var(--h3); font-size: 1.1rem; font-weight: 600; }
+
+main a       { color: var(--accent); }
+main a:hover { color: var(--accent-ho); }
+
+main hr {
+  border: none;
+  border-top: 1px solid var(--h1-rule);
+  opacity: 0.4;
+  margin: 2rem 0;
+}
+
+main strong { font-weight: 600; }
+
+/* CV date line under h3 */
+main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
+
+/* === HOMEPAGE HERO ============================================= */
+
+.hero { text-align: center; padding: 4rem 1rem 3rem; }
+
+.hero h1 {
+  font-size: 2.8rem;
+  border: none;
+  padding-bottom: 0;
+  color: var(--h1);
+  font-style: italic;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-style: italic;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.05rem;
+  margin-top: 0.25rem;
+}
+
+.hero-links {
+  margin-top: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.hero-links a { font-weight: bold; text-decoration: none; color: var(--accent); }
+.hero-links a:hover { text-decoration: underline; }
+
+/* === SHARED COMPONENTS ========================================= */
+
+.tags { display: inline-flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.tag {
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.15em 0.55em;
+  text-transform: uppercase;
+}
+
+/* === BLOG ====================================================== */
+
+.post-list { display: flex; flex-direction: column; gap: 1.75rem; margin-top: 1.5rem; }
+
+.post-card {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 1.4rem 1.75rem;
+}
+
+.post-card .post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.post-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  border: none;
+  padding: 0;
+  color: var(--h1);
+}
+
+.post-card h2 a { color: var(--h1); text-decoration: none; }
+.post-card h2 a:hover { color: var(--accent); }
+
+.post-card .post-summary {
+  color: var(--text);
+  font-size: 0.93rem;
+  margin: 0 0 0.9rem;
+  opacity: 0.85;
+}
+
+.read-more {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.read-more:hover { text-decoration: underline; }
+.no-posts { color: var(--muted); font-style: italic; }
+
+/* Individual post */
+.blog-post .post-header { margin-bottom: 2rem; }
+.blog-post .post-header h1 { margin-bottom: 0.5rem; }
+
+.blog-post .post-meta {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.blog-post .post-content { margin-bottom: 3rem; }
+
+.blog-post .post-footer {
+  border-top: 1px solid var(--card-border);
+  padding-top: 1.25rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* --- Post prev/next navigation --------------------------------- */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.post-nav a { color: var(--accent); text-decoration: none; }
+.post-nav a:hover { text-decoration: underline; }
+
+/* --- Breadcrumb ------------------------------------------------ */
+.post-breadcrumb {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.post-breadcrumb a { color: var(--muted); text-decoration: none; }
+.post-breadcrumb a:hover { color: var(--accent); }
+
+/* --- Back link (month page) ------------------------------------ */
+.back-link {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 1.75rem;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+/* --- Month sections on root /blog/ page ----------------------- */
+.month-list { display: flex; flex-direction: column; gap: 3rem; margin-top: 1.5rem; }
+
+.month-section { border-top: 1px solid var(--card-border); padding-top: 1.5rem; }
+
+.month-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.month-header h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--h2);
+  margin: 0;
+  border: none;
+}
+
+.month-header h2 a { color: var(--h2); text-decoration: none; }
+.month-header h2 a:hover { color: var(--accent); }
+
+.month-count {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* === MUSIC PAGE ================================================ */
+
+.coming-soon {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.coming-soon .cs-label {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.coming-soon h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-style: italic;
+  color: var(--h1);
+  border: none;
+  margin: 0 0 1rem;
+}
+
+.coming-soon p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* === GITHUB WIDGET ============================================= */
+
+.github-widget {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 1.5rem 1.75rem;
+  margin: 2rem 0;
+}
+
+.gh-loading, .gh-error {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.gh-profile {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.gh-avatar {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--card-border);
+  flex-shrink: 0;
+}
+
+.gh-info { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.gh-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--h1);
+  text-decoration: none;
+}
+
+.gh-name:hover { color: var(--accent); }
+
+.gh-bio { font-size: 0.88rem; color: var(--text); opacity: 0.8; margin: 0; }
+
+.gh-stats {
+  display: flex;
+  gap: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.gh-repos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.gh-repo {
+  border: 1px solid var(--card-border);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.gh-repo:hover { border-color: var(--accent); }
+
+.gh-repo-name {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.gh-repo-desc { font-size: 0.75rem; color: var(--text); opacity: 0.75; line-height: 1.45; }
+
+.gh-repo-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.67rem;
+  color: var(--muted);
+  margin-top: auto;
+  padding-top: 0.3rem;
+}
+
+.gh-lang::before { content: "● "; color: var(--accent); }
+
+/* === RESPONSIVE ================================================ */
+
+@media (max-width: 1010px) {
+  body { padding: 0; }            /* no side-gutter space on small screens */
+  .site-column { max-width: 100%; }
+
+  .site-column > header { margin-bottom: 0; border-left: none; border-right: none; }
+  .site-column > main   { border-left: none; border-right: none; padding: 1.5rem 1.25rem; }
+  .site-column > footer { border-left: none; border-right: none; }
+
+  .site-column > header > nav > ul > li > a {
+    padding: 0.75rem 0.7rem;
+    letter-spacing: 0.07em;
+    font-size: 0.67rem;
+  }
+
+  .gh-repos { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .site-column > header > nav > ul > li > a {
+    padding: 0.6rem 0.5rem;
+    letter-spacing: 0.03em;
+    font-size: 0.63rem;
+  }
+
+  .gh-repos { grid-template-columns: 1fr; }
+}
