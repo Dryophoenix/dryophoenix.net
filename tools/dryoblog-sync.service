@@ -1,0 +1,32 @@
+# /etc/systemd/system/dryoblog-sync.service
+#
+# Install:
+#   sudo cp dryoblog-sync.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now dryoblog-sync
+#
+# View logs:
+#   journalctl -u dryoblog-sync -f
+
+[Unit]
+Description=dryophoenix blog webhook server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data                          # change to the user that owns the site
+WorkingDirectory=/var/www/dryophoenix.net/tools
+
+ExecStart=/usr/bin/python3 /var/www/dryophoenix.net/tools/webhook-server.py
+
+# Set these to match your server
+Environment="PORT=3001"
+Environment="HUGO_DIR=/var/www/dryophoenix.net"
+Environment="WEBHOOK_SECRET=your-secret-here"
+Environment="LOG_FILE=/var/log/dryoblog-sync.log"
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

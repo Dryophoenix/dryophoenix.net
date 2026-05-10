@@ -1,0 +1,36 @@
+{{ define "main" }}
+<article class="blog-post">
+
+  <header class="post-header">
+    <div class="post-breadcrumb">
+      <a href="/blog">Blog</a>
+      &rsaquo;
+      <a href="{{ .Parent.Permalink }}">{{ .Parent.Title }}</a>
+    </div>
+    <h1>{{ .Title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+      {{ with .Params.tags }}
+      <span class="tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</span>
+      {{ end }}
+    </div>
+  </header>
+
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+
+  <footer class="post-footer">
+    <div class="post-nav">
+      {{- with .PrevInSection }}
+      <a class="post-nav-prev" href="{{ .Permalink }}">&larr; {{ .Title }}</a>
+      {{- else }}<span></span>{{- end }}
+      {{- with .NextInSection }}
+      <a class="post-nav-next" href="{{ .Permalink }}">{{ .Title }} &rarr;</a>
+      {{- end }}
+    </div>
+    <a class="back-link" href="{{ .Parent.Permalink }}">&larr; Back to {{ .Parent.Title }}</a>
+  </footer>
+
+</article>
+{{ end }}

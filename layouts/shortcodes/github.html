@@ -1,0 +1,66 @@
+{{- $username := .Get "username" | default "octocat" -}}
+<div class="github-widget" id="gh-{{ $username }}" data-username="{{ $username }}">
+  <p class="gh-loading">Loading GitHub profile…</p>
+</div>
+<script>
+(function () {
+  var u   = {{ $username | jsonify }};
+  var box = document.getElementById("gh-" + u);
+
+  function q(url) {
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    });
+  }
+
+  Promise.all([
+    q("https://api.github.com/users/" + u),
+    q("https://api.github.com/users/" + u + "/repos?sort=updated&per_page=12")
+  ]).then(function (data) {
+    var user  = data[0];
+    var repos = data[1]
+      .filter(function (r) { return !r.fork; })
+      .sort(function (a, b) { return b.stargazers_count - a.stargazers_count; })
+      .slice(0, 6);
+
+    var html =
+      '<div class="gh-profile">' +
+        '<img class="gh-avatar" src="' + user.avatar_url + '" alt="' + u + '" loading="lazy">' +
+        '<div class="gh-info">' +
+          '<a class="gh-name" href="' + user.html_url + '" target="_blank" rel="noopener">' +
+            (user.name || u) +
+          '</a>' +
+          (user.bio ? '<p class="gh-bio">' + user.bio + '</p>' : '') +
+          '<div class="gh-stats">' +
+            '<span>' + user.public_repos + ' repos</span>' +
+            '<span>' + user.followers + ' followers</span>' +
+            (user.location ? '<span>' + user.location + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    if (repos.length) {
+      html += '<div class="gh-repos">';
+      repos.forEach(function (r) {
+        html +=
+          '<a class="gh-repo" href="' + r.html_url + '" target="_blank" rel="noopener">' +
+            '<div class="gh-repo-name">' + r.name + '</div>' +
+            (r.description ? '<div class="gh-repo-desc">' + r.description + '</div>' : '') +
+            '<div class="gh-repo-meta">' +
+              (r.language ? '<span class="gh-lang">' + r.language + '</span>' : '') +
+              (r.stargazers_count ? '<span>&#9733; ' + r.stargazers_count + '</span>' : '') +
+            '</div>' +
+          '</a>';
+      });
+      html += '</div>';
+    }
+
+    box.innerHTML = html;
+  }).catch(function () {
+    box.innerHTML =
+      '<p class="gh-error">Could not reach GitHub. ' +
+      '<a href="https://github.com/' + u + '" target="_blank" rel="noopener">View profile directly →</a></p>';
+  });
+}());
+</script>

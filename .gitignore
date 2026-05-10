@@ -1,0 +1,12 @@
+# Hugo generated output
+public/
+
+# Hugo cache
+.hugo_build.lock
+resources/_gen/
+
+# OS stuff
+.DS_Store
+
+# Editor
+.nvim/

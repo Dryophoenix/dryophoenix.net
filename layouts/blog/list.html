@@ -1,0 +1,84 @@
+{{ define "main" }}
+<article>
+
+  {{- if .Sections }}
+  {{/* ── Root /blog/ page: list month sections newest-first ── */}}
+
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+
+  <div class="month-list">
+    {{- range .Sections.ByDate.Reverse }}
+    <section class="month-section">
+      <div class="month-header">
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <span class="month-count">
+          {{ len .RegularPages }}&thinsp;{{ if eq (len .RegularPages) 1 }}entry{{ else }}entries{{ end }}
+        </span>
+      </div>
+
+      {{/* Show the first two posts as a preview; link to month for the rest */}}
+      <div class="post-list">
+        {{- range first 2 (.RegularPages.ByParam "weight") }}
+        <div class="post-card">
+          <div class="post-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>
+            {{ with .Params.tags }}
+            <span class="tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</span>
+            {{ end }}
+          </div>
+          <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+          <p class="post-summary">
+            {{ with .Params.summary }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
+          </p>
+          <a class="read-more" href="{{ .Permalink }}">Read &rarr;</a>
+        </div>
+        {{- end }}
+      </div>
+
+      {{ if gt (len .RegularPages) 2 }}
+      <a class="read-more" href="{{ .Permalink }}">
+        See all {{ len .RegularPages }} entries from {{ .Title }} &rarr;
+      </a>
+      {{ end }}
+    </section>
+    {{- end }}
+
+    {{ if not .Sections }}
+    <p class="no-posts">No posts yet &mdash; check back soon.</p>
+    {{ end }}
+  </div>
+
+  {{- else }}
+  {{/* ── Month page /blog/monYR/: list posts in numeric order ── */}}
+
+  <a class="back-link" href="/blog">&larr; All posts</a>
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+
+  <div class="post-list">
+    {{- range .RegularPages.ByParam "weight" }}
+    <div class="post-card">
+      <div class="post-meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+        {{ with .Params.tags }}
+        <span class="tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</span>
+        {{ end }}
+      </div>
+      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      <p class="post-summary">
+        {{ with .Params.summary }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
+      </p>
+      <a class="read-more" href="{{ .Permalink }}">Read &rarr;</a>
+    </div>
+    {{- end }}
+
+    {{ if not .RegularPages }}
+    <p class="no-posts">No posts yet.</p>
+    {{ end }}
+  </div>
+
+  {{- end }}
+
+</article>
+{{ end }}
