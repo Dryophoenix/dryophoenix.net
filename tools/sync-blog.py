@@ -92,6 +92,44 @@ def extract_title(content: str, post_num: int) -> str:
     return m.group(1).strip() if m else f"Entry {post_num}"
 
 
+def inject_more_divider(full_content: str) -> str:
+    """
+    Add Hugo's <!--more--> summary divider after the first paragraph of the
+    post body (i.e. after the front matter ends), if one is not already present.
+
+    When <!--more--> is present Hugo uses the content before it as .Summary
+    *with HTML preserved* — without it, Hugo strips all formatting and returns
+    a plain-text blob.
+    """
+    if "<!--more-->" in full_content:
+        return full_content
+
+    # Locate end of TOML (+++) or YAML (---) front matter
+    if full_content.startswith("+++"):
+        try:
+            fm_end = full_content.index("+++", 3) + 3
+        except ValueError:
+            fm_end = 0
+    elif full_content.startswith("---"):
+        try:
+            fm_end = full_content.index("---", 3) + 3
+        except ValueError:
+            fm_end = 0
+    else:
+        fm_end = 0
+
+    header = full_content[:fm_end]
+    body   = full_content[fm_end:]
+
+    # Split at the first blank line separating paragraphs
+    parts = re.split(r"\n\n+", body.strip(), maxsplit=1)
+    if len(parts) >= 2:
+        body = "\n\n" + parts[0] + "\n\n<!--more-->\n\n" + parts[1]
+    # If there's only one paragraph there's nothing useful to truncate
+
+    return header + body
+
+
 def has_front_matter(content: str) -> bool:
     return content.lstrip().startswith(("+++", "---"))
 
@@ -209,6 +247,9 @@ def sync():
                 title     = extract_title(raw, weight)
                 post_date = date(yr, mon_num, min(weight, 28))
                 final     = make_front_matter(title, post_date, weight) + raw
+
+            # Ensure the first paragraph is set as the HTML-preserving summary
+            final = inject_more_divider(final)
 
             dest_path = dest_dir / post_file.name
             log.debug("  Writing %s", dest_path.relative_to(HUGO_DIR))

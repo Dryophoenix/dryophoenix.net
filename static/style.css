@@ -506,6 +506,34 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
 .read-more:hover { text-decoration: underline; }
 .no-posts { color: var(--muted); font-style: italic; }
 
+/* Post summary — rendered HTML from <!--more--> divider.
+   Scoped down so headings and lists don't blow up to full page sizes. */
+.post-summary { font-size: 0.93rem; opacity: 0.85; margin: 0 0 0.9rem; }
+
+.post-summary p  { margin: 0 0 0.5rem; }
+.post-summary p:last-child { margin-bottom: 0; }
+
+.post-summary h1,
+.post-summary h2,
+.post-summary h3,
+.post-summary h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  border: none;
+  padding: 0;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.post-summary ul,
+.post-summary ol {
+  margin: 0 0 0.5rem;
+  padding-left: 1.4rem;
+}
+
+.post-summary li { margin-bottom: 0.15rem; }
+
 /* Individual post */
 .blog-post .post-header { margin-bottom: 2rem; }
 .blog-post .post-header h1 { margin-bottom: 0.5rem; }
