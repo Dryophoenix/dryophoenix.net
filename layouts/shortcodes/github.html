@@ -4,12 +4,20 @@
 </div>
 <script>
 (function () {
-  var u   = {{ $username | jsonify }};
+  /*
+    safeJS tells Hugo's html/template engine that this value is already
+    valid JavaScript — without it, Hugo double-escapes the JSON quotes
+    (turning "dryophoenix" into "dryophoenix") which is a
+    syntax error and silently kills the whole script.
+  */
+  var u   = {{ $username | jsonify | safeJS }};
   var box = document.getElementById("gh-" + u);
 
   function q(url) {
-    return fetch(url).then(function (r) {
-      if (!r.ok) throw new Error(r.status);
+    return fetch(url, {
+      headers: { "Accept": "application/vnd.github+json" }
+    }).then(function (r) {
+      if (!r.ok) throw new Error("GitHub API returned " + r.status);
       return r.json();
     });
   }
@@ -26,7 +34,7 @@
 
     var html =
       '<div class="gh-profile">' +
-        '<img class="gh-avatar" src="' + user.avatar_url + '" alt="' + u + '" loading="lazy">' +
+        '<img class="gh-avatar" src="' + user.avatar_url + '" alt="' + u + '&#x27;s GitHub avatar" loading="lazy">' +
         '<div class="gh-info">' +
           '<a class="gh-name" href="' + user.html_url + '" target="_blank" rel="noopener">' +
             (user.name || u) +
@@ -57,10 +65,11 @@
     }
 
     box.innerHTML = html;
-  }).catch(function () {
+  }).catch(function (err) {
+    console.error("GitHub widget failed for @" + u + ":", err);
     box.innerHTML =
-      '<p class="gh-error">Could not reach GitHub. ' +
-      '<a href="https://github.com/' + u + '" target="_blank" rel="noopener">View profile directly →</a></p>';
+      '<p class="gh-error">Could not load GitHub profile. ' +
+      '<a href="https://github.com/' + u + '" target="_blank" rel="noopener">View @' + u + ' directly →</a></p>';
   });
 }());
 </script>

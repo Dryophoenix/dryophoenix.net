@@ -1,0 +1,38 @@
+# /etc/systemd/system/forum-submit.service
+#
+# Install:
+#   sudo cp forum-submit.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now forum-submit
+#
+# Logs:
+#   journalctl -u forum-submit -f
+
+[Unit]
+Description=forum.dryophoenix.net — POST /submit handler
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/forum.dryophoenix.net
+
+ExecStart=/usr/bin/python3 /var/www/forum.dryophoenix.net/submit-handler.py
+
+Environment="PORT=3002"
+Environment="DATA_FILE=/var/www/forum.dryophoenix.net/submissions.jsonl"
+Environment="ALLOWED_HOST=forum.dryophoenix.net"
+Environment="LOG_FILE=/var/log/forum-submit.log"
+
+# Hardening — restrict what the process can do
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/var/www/forum.dryophoenix.net /var/log/forum-submit.log
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
