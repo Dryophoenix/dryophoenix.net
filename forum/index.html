@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forum — dryophoenix.net</title>
+    <meta name="description" content="Register your interest in the dryophoenix forum.">
+    <!--
+      Uses Pico CSS (standard/classed version) from CDN.
+      This is intentionally separate from the main site's classless Pico build
+      and its own custom styles.
+    -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <main class="container">
+
+      <hgroup>
+        <h1>forum</h1>
+        <p>
+          A small forum attached to <a href="https://dryophoenix.net">dryophoenix.net</a>.
+          Leave your name and email to be notified when it opens.
+        </p>
+      </hgroup>
+
+      <form method="POST" action="/submit" novalidate>
+
+        <!--
+          Honeypot — hidden from real users, visible to bots.
+          The handler rejects any submission where this field is non-empty.
+          Positioned off-screen via CSS rather than display:none so some
+          screen readers still skip it naturally.
+        -->
+        <input
+          class="honeypot"
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+          placeholder="leave blank">
+
+        <label for="name">
+          Name
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            minlength="1"
+            maxlength="100"
+            autocomplete="name"
+            placeholder="your name">
+        </label>
+
+        <label for="email">
+          Email
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            maxlength="254"
+            autocomplete="email"
+            placeholder="you@example.com">
+        </label>
+
+        <button type="submit">Register interest</button>
+
+      </form>
+
+      <footer>
+        <small>
+          Your details are stored only on this server and will never be shared.
+          <a href="https://dryophoenix.net">← back to dryophoenix.net</a>
+        </small>
+      </footer>
+
+    </main>
+
+  </body>
+</html>

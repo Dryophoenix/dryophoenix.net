@@ -1,0 +1,42 @@
+/*
+  forum.dryophoenix.net — custom overrides on top of Pico CSS (classed).
+  Intentionally minimal and different from the main site's theme.
+*/
+
+/* Honeypot — visually hidden, still in DOM for bots */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Constrain the form column to something comfortable */
+main.container {
+  max-width: 480px;
+  margin-top: 4rem;
+}
+
+hgroup {
+  margin-bottom: 2rem;
+}
+
+hgroup h1 {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+/* Give the footer small-print enough breathing room */
+main > footer {
+  margin-top: 2rem;
+  border-top: 1px solid var(--pico-muted-border-color);
+  padding-top: 1rem;
+}
+
+/* Slightly softer submit button */
+button[type="submit"] {
+  width: 100%;
+  margin-top: 0.5rem;
+}

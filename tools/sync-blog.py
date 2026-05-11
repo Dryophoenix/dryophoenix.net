@@ -220,7 +220,7 @@ def sync():
     # Rebuild Hugo
     if not DRY_RUN:
         log.info("Running hugo rebuild…")
-        result = subprocess.run(["hugo"], cwd=str(HUGO_DIR), capture_output=True, text=True)
+        result = subprocess.run(["hugo", "--buildFuture"], cwd=str(HUGO_DIR), capture_output=True, text=True)
         if result.returncode != 0:
             log.error("Hugo build failed:\n%s", result.stderr)
             sys.exit(1)
