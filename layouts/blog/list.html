@@ -28,9 +28,9 @@
             {{ end }}
           </div>
           <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-          <p class="post-summary">
-            {{ with .Params.summary }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
-          </p>
+          <div class="post-summary">
+            {{ with .Params.summary }}{{ . | markdownify }}{{ else }}{{ .Summary }}{{ end }}
+          </div>
           <a class="read-more" href="{{ .Permalink }}">Read &rarr;</a>
         </div>
         {{- end }}
