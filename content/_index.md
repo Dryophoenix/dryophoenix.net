@@ -1,8 +1,10 @@
 +++
-title = 'dryophoenix'
-subtitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+title = "hi, i'm dryo!"
+subtitle = 'nice to see you here :)'
 date = '2026-05-10'
 draft = false
 +++
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+A programmer, an audio engineer, and a student who loves language. I'm on a path towards research, and want a Master's in CS. Once I learn C, I want to contribute to Pipewire and Debian. 
+
+Because I learn by teaching, I'm learning in public, so [learn with me.](https://dryophoenix.net/blog)
