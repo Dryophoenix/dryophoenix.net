@@ -158,7 +158,7 @@ def git(*args, cwd=None):
 
 
 def clone_or_pull():
-    if CLONE_DIR.exists():
+    if (CLONE_DIR / ".git").exists():
         log.info("Pulling latest from %s", BLOG_REPO)
         git("pull", "--ff-only", cwd=CLONE_DIR)
     else:
