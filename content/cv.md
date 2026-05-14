@@ -7,45 +7,34 @@ draft = false
 
 ## Experience
 
-### Lorem Ipsum Corp — Senior Consectetur
-*2022 – Present*
+### Department of Music: Technology and Production — Lab Assistant / Engineer
+*June 2024 – Present*
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Helping students and working on computers; lately, mostly the latter.
 
-- Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-- Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-- Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-
-### Adipiscing Ltd — Consectetur Specialist
-*2019 – 2022*
-
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-
-- Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
-- Ut labore et dolore magnam aliquam quaerat voluptatem.
-- Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.
+- Taught students when they needed help with projects or assignments, making sure not to simply guide them through it.
+- Managed security on computers, eventually (once it's done) deploying SteelWool onto them, to allow Chrome data to be cleared.
+- TA'd for classes, assisting professors - especially with technical questions.
 
 ---
 
 ## Education
 
-### Universitas Lorem Ipsum — B.Sc. Dolor Sit Amet
-*2015 – 2019*
-
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+### Oregon State University - B.A. Music Technology and Production
+*2022 - 2028*
 
 ---
 
 ## Skills
 
-**Lorem:** Ipsum, Dolor, Sit, Amet, Consectetur
+**Audio:** Pro Tools, Logic Pro, Small-group Live Sound, Large Desks.
 
-**Adipiscing:** Elit, Sed, Eiusmod, Tempor, Incididunt
+**Programming:** Basic C, Fair Bash, Fair Python. Good HTML/CSS, Good JS.
 
-**Labore:** Dolore, Magna, Aliqua, Enim, Minim
+**Traits:** Insatiable Learner, Collaborative, Dedicated, Autonomous.
 
 ---
 
 ## Contact
 
-Lorem ipsum dolor sit amet — [lorem@dryophoenix.net](mailto:lorem@dryophoenix.net)
+Contact me! — [dryo@dryophoenix.net](mailto:dryo@dryophoenix.net)
