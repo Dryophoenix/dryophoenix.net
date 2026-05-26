@@ -1,0 +1,37 @@
+# ── systemd service for the dryophoenix mailing list app ─────────────────────
+# Place at: /etc/systemd/system/mailer.service
+#
+# Then run:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable mailer
+#   sudo systemctl start mailer
+#   sudo systemctl status mailer     ← check it's running
+
+[Unit]
+Description=dryophoenix mailing list (Flask + Gunicorn)
+After=network.target
+
+[Service]
+# ── Change 'ubuntu' to whatever user runs your server ──
+User=ubuntu
+Group=ubuntu
+
+# ── Point this at wherever you put the app ──
+WorkingDirectory=/home/ubuntu/dryophoenix-mailer
+
+# ── Activate the venv, then run gunicorn ──
+ExecStart=/home/ubuntu/dryophoenix-mailer/venv/bin/gunicorn \
+          --workers 2 \
+          --bind 127.0.0.1:5000 \
+          --access-logfile /var/log/mailer-access.log \
+          --error-logfile  /var/log/mailer-error.log \
+          app:app
+
+Restart=on-failure
+RestartSec=5
+
+# ── Environment ──
+Environment="FLASK_ENV=production"
+
+[Install]
+WantedBy=multi-user.target

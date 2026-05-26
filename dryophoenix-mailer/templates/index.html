@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Subscribers{% endblock %}
+
+{% block content %}
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-val">{{ active }}</div>
+    <div class="stat-label">active</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">{{ total }}</div>
+    <div class="stat-label">total</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">{{ total - active }}</div>
+    <div class="stat-label">inactive</div>
+  </div>
+</div>
+
+<!-- Add / Import -->
+<div class="action-row">
+
+  <div class="action-box">
+    <div class="section-head">add subscriber</div>
+    <form method="POST" action="{{ url_for('add_subscriber') }}" class="inline">
+      <div><label>email</label><input type="email" name="email" required /></div>
+      <div><label>name</label><input type="text" name="name" /></div>
+      <button type="submit" class="btn btn-accent" style="margin-top:18px">add</button>
+    </form>
+  </div>
+
+  <div class="action-box">
+    <div class="section-head">import csv</div>
+    <form method="POST" action="{{ url_for('import_csv') }}" enctype="multipart/form-data">
+      <label>csv file (must have an "email" column)</label>
+      <input type="file" name="csvfile" accept=".csv"
+             style="color:var(--muted);font-size:12px;padding:4px 0;border:none;background:transparent;" />
+      <button type="submit" class="btn" style="width:auto">import</button>
+    </form>
+  </div>
+
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <form method="GET" action="{{ url_for('index') }}">
+    <input type="text" name="q" value="{{ search }}" placeholder="search email or name…" />
+    <input type="hidden" name="show" value="{{ show }}" />
+    <button type="submit" class="btn">search</button>
+    {% if search %}<a href="{{ url_for('index', show=show) }}" class="btn">clear</a>{% endif %}
+  </form>
+
+  <div class="tabs">
+    <a href="{{ url_for('index', q=search, show='active') }}"
+       class="tab {% if show == 'active' %}active{% endif %}">active</a>
+    <a href="{{ url_for('index', q=search, show='all') }}"
+       class="tab {% if show == 'all' %}active{% endif %}">all</a>
+    <a href="{{ url_for('index', q=search, show='inactive') }}"
+       class="tab {% if show == 'inactive' %}active{% endif %}">inactive</a>
+  </div>
+
+  <a href="{{ url_for('export_csv') }}" class="btn btn-accent" style="margin-left:auto">
+    ↓ export csv
+  </a>
+</div>
+
+<!-- Table -->
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>email</th>
+        <th>name</th>
+        <th>subscribed</th>
+        <th>status</th>
+        <th>notes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in subscribers %}
+      <tr>
+        <td class="mono muted">{{ s.id }}</td>
+        <td class="mono">{{ s.email }}</td>
+        <td>{{ s.name or '—' }}</td>
+        <td class="mono muted" style="white-space:nowrap">{{ s.subscribed_at[:10] }}</td>
+        <td>
+          <span class="badge {% if s.active %}badge-active{% else %}badge-inactive{% endif %}">
+            {{ 'active' if s.active else 'inactive' }}
+          </span>
+        </td>
+        <td>
+          <form method="POST" action="{{ url_for('update_notes', sub_id=s.id) }}"
+                class="notes-form">
+            <input type="text" name="notes" value="{{ s.notes or '' }}" placeholder="add note…" />
+            <button type="submit" class="btn btn-sm">save</button>
+          </form>
+        </td>
+        <td style="white-space:nowrap">
+          <form method="POST" action="{{ url_for('toggle_active', sub_id=s.id) }}"
+                style="display:inline">
+            <button type="submit" class="btn btn-sm">
+              {{ 'deactivate' if s.active else 'reactivate' }}
+            </button>
+          </form>
+          <form method="POST" action="{{ url_for('delete_subscriber', sub_id=s.id) }}"
+                style="display:inline"
+                onsubmit="return confirm('Permanently delete {{ s.email }}?')">
+            <button type="submit" class="btn btn-sm btn-danger">delete</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7" style="color:var(--muted);text-align:center;padding:32px;font-family:var(--mono);font-size:12px;">
+          no subscribers found
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
