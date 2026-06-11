@@ -7,19 +7,33 @@ import csv
 import io
 import os
 import sqlite3
+from dotenv import load_dotenv
 from datetime import datetime
 from functools import wraps
 
-from flask import (Flask, Response, g, jsonify, redirect,
-                   render_template, request, session, url_for)
+from flask import (
+    Flask,
+    Response,
+    g,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
 app = Flask(__name__)
 
+load_dotenv()
+
 # ── Config ────────────────────────────────────────────────────────────────────
 # Change these before deploying!
-app.secret_key = "CHANGE_ME_TO_SOMETHING_RANDOM"
-ADMIN_PASSWORD = "CHANGE_ME_TOO"
-WEBHOOK_SECRET = "CHANGE_ME_POWER_AUTOMATE_SECRET"   # send this as X-Webhook-Secret header from Power Automate
+app.secret_key = os.getenv("SECRET_KEY")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+WEBHOOK_SECRET = os.getenv(
+    "WEBHOOK_SECRET"
+)  # send this as X-Webhook-Secret header from Power Automate
 
 DATABASE = os.path.join(os.path.dirname(__file__), "subscribers.db")
 
@@ -28,7 +42,7 @@ DATABASE = os.path.join(os.path.dirname(__file__), "subscribers.db")
 def get_db():
     if "db" not in g:
         g.db = sqlite3.connect(DATABASE)
-        g.db.row_factory = sqlite3.Row          # rows behave like dicts
+        g.db.row_factory = sqlite3.Row  # rows behave like dicts
     return g.db
 
 
@@ -62,6 +76,7 @@ def login_required(f):
         if not session.get("logged_in"):
             return redirect(url_for("login"))
         return f(*args, **kwargs)
+
     return decorated
 
 
@@ -89,7 +104,7 @@ def logout():
 def index():
     db = get_db()
     search = request.args.get("q", "").strip()
-    show = request.args.get("show", "active")   # active | all | inactive
+    show = request.args.get("show", "active")  # active | all | inactive
 
     query = "SELECT * FROM subscribers WHERE 1=1"
     params = []
@@ -108,12 +123,14 @@ def index():
     total = db.execute("SELECT COUNT(*) FROM subscribers").fetchone()[0]
     active = db.execute("SELECT COUNT(*) FROM subscribers WHERE active=1").fetchone()[0]
 
-    return render_template("index.html",
-                           subscribers=subscribers,
-                           total=total,
-                           active=active,
-                           search=search,
-                           show=show)
+    return render_template(
+        "index.html",
+        subscribers=subscribers,
+        total=total,
+        active=active,
+        search=search,
+        show=show,
+    )
 
 
 @app.route("/subscriber/<int:sub_id>/toggle", methods=["POST"])
@@ -165,7 +182,7 @@ def export_csv():
     return Response(
         buf.getvalue(),
         mimetype="text/csv",
-        headers={"Content-Disposition": f"attachment; filename={filename}"}
+        headers={"Content-Disposition": f"attachment; filename={filename}"},
     )
 
 
@@ -179,17 +196,14 @@ def webhook():
 
     data = request.get_json(silent=True) or {}
     email = (data.get("email") or "").strip().lower()
-    name  = (data.get("name")  or "").strip()
+    name = (data.get("name") or "").strip()
 
     if not email:
         return jsonify({"error": "email required"}), 400
 
     db = get_db()
     try:
-        db.execute(
-            "INSERT INTO subscribers (email, name) VALUES (?, ?)",
-            (email, name)
-        )
+        db.execute("INSERT INTO subscribers (email, name) VALUES (?, ?)", (email, name))
         db.commit()
         return jsonify({"status": "created", "email": email}), 201
     except sqlite3.IntegrityError:
@@ -202,7 +216,7 @@ def webhook():
 @login_required
 def add_subscriber():
     email = request.form.get("email", "").strip().lower()
-    name  = request.form.get("name",  "").strip()
+    name = request.form.get("name", "").strip()
     if not email:
         return redirect(url_for("index"))
     db = get_db()
@@ -210,7 +224,7 @@ def add_subscriber():
         db.execute("INSERT INTO subscribers (email, name) VALUES (?, ?)", (email, name))
         db.commit()
     except sqlite3.IntegrityError:
-        pass    # duplicate — silently ignore
+        pass  # duplicate — silently ignore
     return redirect(url_for("index"))
 
 
@@ -228,11 +242,13 @@ def import_csv():
     imported = 0
     for row in reader:
         email = (row.get("email") or row.get("Email") or "").strip().lower()
-        name  = (row.get("name")  or row.get("Name")  or "").strip()
+        name = (row.get("name") or row.get("Name") or "").strip()
         if not email:
             continue
         try:
-            db.execute("INSERT INTO subscribers (email, name) VALUES (?, ?)", (email, name))
+            db.execute(
+                "INSERT INTO subscribers (email, name) VALUES (?, ?)", (email, name)
+            )
             imported += 1
         except sqlite3.IntegrityError:
             pass
