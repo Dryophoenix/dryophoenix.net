@@ -7,13 +7,14 @@ draft = false
 
 ## Experience
 
-### Department of Music: Technology and Production — Lab Assistant / Engineer
+### Department of Music: Technology and Production - Lab Assistant / Engineer
 *June 2024 – Present*
 
 Helping students and working on computers; lately, mostly the latter.
 
 - Taught students when they needed help with projects or assignments, making sure not to simply guide them through it.
-- Managed security on computers, eventually (once it's done) deploying SteelWool onto them, to allow Chrome data to be cleared.
+- Managed studio computers, fixing issues as they came up (as they often do) with
+Pro Tools, Logic, and any of our other software.
 - TA'd for classes, assisting professors - especially with technical questions.
 
 ---
@@ -29,7 +30,7 @@ Helping students and working on computers; lately, mostly the latter.
 
 **Audio:** Pro Tools, Logic Pro, Small-group Live Sound, Large Desks.
 
-**Programming:** Basic C, Fair Bash, Fair Python. Good HTML/CSS, Good JS.
+**Programming:** Basic C, Decent Bash, JS, HTML/CSS, and Python.
 
 **Traits:** Insatiable Learner, Collaborative, Dedicated, Autonomous.
 
