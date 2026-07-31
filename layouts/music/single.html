@@ -1,15 +1,121 @@
 {{ define "main" }}
 <article>
   <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
 
+  {{ $tracks := .Params.tracks }}
+  {{ if $tracks }}
+  <div class="music-list">
+    {{- range $tracks }}
+    <div class="music-card">
+      {{ with .cover }}
+      <div class="music-cover" style="background-image:url('{{ . }}')"></div>
+      {{ end }}
+      <div class="music-body">
+        <div class="music-meta">
+          {{ with .date }}<time datetime="{{ . }}">{{ dateFormat "2 January 2006" . }}</time>{{ end }}
+          {{ with .tags }}
+          <span class="tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</span>
+          {{ end }}
+        </div>
+        <h2>{{ .title }}</h2>
+        {{ with .description }}<p class="music-desc">{{ . }}</p>{{ end }}
+
+        <div class="player" data-src="{{ .audio }}">
+          <button type="button" class="player-toggle" aria-label="Play">
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <div class="player-controls">
+            <input type="range" class="player-seek" value="0" min="0" max="100" step="0.1" aria-label="Seek">
+            <div class="player-time">
+              <span class="player-current">0:00</span>
+              <span class="player-duration">0:00</span>
+            </div>
+          </div>
+        </div>
+        <noscript><audio controls src="{{ .audio }}"></audio></noscript>
+      </div>
+    </div>
+    {{- end }}
+  </div>
+
+  <script>
+  (function () {
+    function fmt(s) {
+      if (!isFinite(s)) return '0:00';
+      var m = Math.floor(s / 60);
+      var sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    document.querySelectorAll('.player').forEach(function (player) {
+      var audio    = new Audio(player.dataset.src);
+      audio.preload = 'none';
+
+      var toggle     = player.querySelector('.player-toggle');
+      var iconPlay   = player.querySelector('.icon-play');
+      var iconPause  = player.querySelector('.icon-pause');
+      var seek       = player.querySelector('.player-seek');
+      var current    = player.querySelector('.player-current');
+      var duration   = player.querySelector('.player-duration');
+      var seeking    = false;
+
+      function setPlaying(isPlaying) {
+        iconPlay.hidden  = isPlaying;
+        iconPause.hidden = !isPlaying;
+        toggle.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+      }
+
+      toggle.addEventListener('click', function () {
+        if (audio.paused) { audio.play(); } else { audio.pause(); }
+      });
+
+      audio.addEventListener('play', function () {
+        if (window.__dryoActiveAudio && window.__dryoActiveAudio !== audio) {
+          window.__dryoActiveAudio.pause();
+        }
+        window.__dryoActiveAudio = audio;
+        setPlaying(true);
+      });
+      audio.addEventListener('pause', function () { setPlaying(false); });
+      audio.addEventListener('ended', function () {
+        setPlaying(false);
+        seek.value = 0;
+        current.textContent = '0:00';
+      });
+
+      audio.addEventListener('loadedmetadata', function () {
+        seek.max = audio.duration;
+        duration.textContent = fmt(audio.duration);
+      });
+
+      audio.addEventListener('timeupdate', function () {
+        if (seeking) return;
+        seek.value = audio.currentTime;
+        current.textContent = fmt(audio.currentTime);
+      });
+
+      seek.addEventListener('input', function () {
+        seeking = true;
+        current.textContent = fmt(seek.value);
+      });
+      seek.addEventListener('change', function () {
+        audio.currentTime = seek.value;
+        seeking = false;
+      });
+    });
+  }());
+  </script>
+
+  {{ else }}
   <div class="coming-soon">
     <p class="cs-label">sample packs &amp; field recordings</p>
     <h2>Coming Soon</h2>
     <p>
-      A file server is in progress. Once it is live, this page will host
-      downloadable sample packs — recorded in the field and mixed at home.
-      Check back later.
+      Tracks are on the way — check back soon.
     </p>
   </div>
+  {{ end }}
 </article>
 {{ end }}
