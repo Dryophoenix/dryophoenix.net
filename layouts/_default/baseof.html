@@ -6,6 +6,13 @@
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ .Site.Params.description }}">
     <meta name="color-scheme" content="light dark">
+    <!--
+      Apply theme before CSS paints to prevent a flash of the wrong mode.
+      Loaded synchronously (no defer/async) and before every stylesheet below
+      so it always finishes before first paint — CSP (script-src 'self') rules
+      out doing this inline. See static/js/theme.js for the actual logic.
+    -->
+    <script src="/js/theme.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
@@ -20,19 +27,6 @@
     {{ $style := resources.Get "style.css"          | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $pico.RelPermalink }}"  integrity="{{ $pico.Data.Integrity }}">
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
-    <!--
-      Apply theme before CSS paints to prevent a flash of the wrong mode.
-      Priority: localStorage (explicit user choice) → prefers-color-scheme → light.
-    -->
-    <script>
-      (function () {
-        var stored = localStorage.getItem('theme');
-        var theme  = stored
-          ? stored
-          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-      }());
-    </script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -59,7 +53,7 @@
               {{ end }}
             </li>
           </ul>
-          <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle colour scheme"></button>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle colour scheme"></button>
         </nav>
       </header>
 
@@ -72,26 +66,5 @@
       </footer>
 
     </div>
-
-    <script>
-      function applyTheme(t) {
-        document.documentElement.setAttribute('data-theme', t);
-        localStorage.setItem('theme', t);
-        var btn = document.getElementById('theme-toggle');
-        if (btn) btn.textContent = t === 'dark' ? '[ light mode ]' : '[ dark mode ]';
-      }
-
-      function toggleTheme() {
-        var current = document.documentElement.getAttribute('data-theme');
-        applyTheme(current === 'dark' ? 'light' : 'dark');
-      }
-
-      /* Set initial button label once DOM is ready */
-      (function () {
-        var t   = document.documentElement.getAttribute('data-theme') || 'light';
-        var btn = document.getElementById('theme-toggle');
-        if (btn) btn.textContent = t === 'dark' ? '[ light mode ]' : '[ dark mode ]';
-      }());
-    </script>
   </body>
 </html>
