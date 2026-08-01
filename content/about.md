@@ -1,29 +1,50 @@
 +++
 title = 'about'
 subtitle = 'an audio engineer specializing in voice'
-date = '2026-05-10'
 draft = false
 +++
 
-I'm Neph (or Dryo), an audio engineer with a specific focus on voice. I write instrumental music to spec, and I mix. I specialize in voice because I studied it formally, but also because of a deeper interest in how speech actually works at a signal level.
+I'm Neph (or Dryo), an audio engineer with a specific focus on voice. I mix,
+and I write instrumental music to spec. The voice specialization comes from
+formal study in classical vocal performance and from a deeper interest in
+how speech actually works at a spectral and semantic level. The meaning of the
+lyrics is the single most important thing to me in a mix, and I believe that the
+instruments should follow the voice unless there's a specific reason otherwise.
+
+On the composition side, I write for piano and other MIDI instruments; either
+standalone, or to be placed under a voice.
 
 ## What I do for you
 
-- **Composition** - instrumental and non-vocal music, written for your project
-- **Mixing** - general mixing, with vocal processing as my focus area
+- **Mixing** — general mixing, with vocal processing as my focus area
+- **Composition** — instrumental music for piano and MIDI instruments,
+  written for your project
 
-You can hear this in practice on [weaponized incompetence](/portfolio), a fully produced track, along with other work with [music](/music) and my work in the [portfolio](/portfolio).
+You can hear this in practice on [weaponized incompetence](/portfolio), a
+fully produced track, along with my [compositional work](/music/compositions).
 
 ## Background
 
-My educational background is in music technology, and I'm soon finishing up a degree in it. I've studied audio from why to use a plugin to what it actually does, not just how it sounds. This grew out of a childhood immersed in computers and piano; I've never wanted to separate the two.
+My educational background is in music technology.
+Alongside that, I'd worked as a lab engineer and TA in my
+department since 2024. Teaching students through their own technical problems
+has done as much for my understanding as any class has.
+
+What I care about is what the processing is actually doing to the signal, not
+just which setting sounds good. That grew out of a childhood immersed in
+computers and piano, and I've never wanted to separate the two.
 
 ## Interests
 
-My focus on voice comes from a broader interest in language. The temporal and spectral markers of speech are, I think, key linguistic features, and figuring out how to carry them across languages is something I expect to spend a long time on. If I am to pursue a doctorate, I would go into research on this subject.
+My focus on voice comes from a broader interest in language. The temporal and
+spectral markers of speech are, I think, key linguistic features, and figuring
+out how to carry them across languages is something I expect to spend a long
+time on.
 
 ## Get in touch
 
-I'm available for composition and mixing work. Reach out and tell me about your project:
+I'm available for mixing and composition work. Tell me about your project! A
+rough scope, your timeline, and a reference track or two is plenty for me to
+start working from.
 
-neph@dryophoenix.net
+[neph@dryophoenix.net](mailto:neph@dryophoenix.net)

@@ -18,30 +18,30 @@ description = "Songs I've written."
 # cover       = "/media/music/covers/track-title.jpg"   # optional
 
 [[tracks]]
-title       = "ASFALTWNBK"
+title       = "Song for a loss"
 audio       = "/media/music/asfaltwnbk.mp3"
-date        = "2026-07-31"
-description = "'A song for a loss that will never be known' is an experiment using natural sound to modify how it's perceived by the listener."
-tags        = []
+date        = ""
+description = "\"A song for a loss that will never be known\" is a solemn piece using Piano to evoke a sense of loss or grief."
+tags        = ["Piano", "Ambient", "Slow"]
 
 [[tracks]]
 title       = "Cinematic Rush"
 audio       = "/media/music/cinematic-rush.mp3"
-date        = "2026-07-31"
-description = "This is an experiment in using complex layered sound in one track. I wrote this in MIDI, where other songs like this that I write are in Musescore."
-tags        = []
+date        = ""
+description = "This is an upbeat piece using complex, layered Piano to provoke a sense of urgency in the listener."
+tags        = ["Piano", "Technical", "Progressive"]
 
 [[tracks]]
 title       = "Music Box"
 audio       = "/media/music/music-box.mp3"
-date        = "2026-07-31"
-description = "This is an experiment in looping tracks, to see what could be written with only minor adjustments to the tracks as they progress."
-tags        = []
+date        = ""
+description = "This piece uses synths to shift a light sound to a darker and more technical one as it progresses to the end, despite little change in the tracks themselves."
+tags        = ["Synth", "Technical", "Progressive"]
 
 [[tracks]]
 title       = "Periodic"
 audio       = "/media/music/periodic.mp3"
-date        = "2026-07-31"
-description = "This one was just for fun :)"
-tags        = []
+date        = ""
+description = "Using a background ostinato to ground it, this short piece shifts quickly through a few different intensities until it quickly ends."
+tags        = ["Synth", "Ambient", "Progressive"]
 +++

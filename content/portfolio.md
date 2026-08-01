@@ -1,7 +1,7 @@
 +++
 title = 'Portfolio'
-subtitle = 'A selection of work.'
-date = '2026-05-10'
+subtitle = ''
+date = ''
 draft = false
 +++
 
