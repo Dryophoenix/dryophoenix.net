@@ -18,6 +18,28 @@ description = ""
 # cover       = "/media/music/covers/track-title.jpg"   # optional
 
 [[tracks]]
+title       = "ASFALTWNBK"
+audio       = ""
+date        = "2026-07-31"
+description = "\"A song for a loss that will never be known\" uses natural sound to modify how \
+dramatic it's perceived by the listener."
+tags        = []
+
+[[tracks]]
+title       = ""
+audio       = ""
+date        = ""
+description = ""
+tags        = []
+
+[[tracks]]
+title       = ""
+audio       = ""
+date        = ""
+description = ""
+tags        = []
+
+[[tracks]]
 title       = ""
 audio       = ""
 date        = ""

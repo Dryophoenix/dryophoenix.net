@@ -1,28 +1,29 @@
 +++
 title = 'about'
-subtitle = 'my passions and what i want to research'
+subtitle = 'an audio engineer specializing in voice'
 date = '2026-05-10'
 draft = false
 +++
 
-I'm Dryo (or Neph), and I'm passionate and insatiable. For a long time, I found myself trying to learn anything, whether it was German, Python, or Pro Tools.
+I'm Neph (or Dryo), an audio engineer with a specific focus on voice. I write instrumental music to spec, and I mix — vocal material is where I specialize, informed by a deeper interest in how speech actually works at a signal level.
+
+## What I do
+
+- **Composition** — instrumental and non-vocal music, written for your project
+- **Mixing** — general mixing, with vocal processing as my focus area
+
+You can hear this in practice on [weaponized incompetence](/portfolio), a fully produced track, along with other work on [music](/music) and [portfolio](/portfolio).
 
 ## Background
 
-My educational background is in music technology. I've studied audio from why to use a plugin to what it means to do so, and I've developed an intricate understanding of signal because of it. This was only after I spent my childhood immersed in computers and music. I couldn't live without doing both.
+My educational background is in music technology, with a technical foundation in software that shapes how I approach signal — I've studied audio from why to use a plugin to what it actually does to the signal, not just how it sounds. This grew out of a childhood immersed in computers and piano; I've never wanted to separate the two.
 
 ## Interests
 
-Naturally, my main interests are in software and audio, but I wouldn't be myself if I couldn't study language as well. I began self-studying German in high school because I found it helped me understand English better, and I tried learning Latin to understand French to understand English. Alas, I'm not yet fluent in any one that's not English.
+My focus on voice comes from a broader interest in language — the temporal and spectral markers of speech are, I think, key linguistic features, and figuring out how to carry them across languages is something I expect to spend a long time on.
 
-The ultimate core of what I want to study is this: the temporal and spectral markers of one's speech must be key linguistic features, and they must be meaningful. If I can't figure out a way to translate that from one linguistic culture to another, I will spend my life trying.
+## Get in touch
 
-## Get in Touch
+I'm available for composition and mixing work. Reach out and tell me about your project:
 
-Please reach out!
-
-dryo@dryophoenix.net.
-
-## On GitHub
-
-{{< github username="dryophoenix" >}}
+dryo@dryophoenix.net
