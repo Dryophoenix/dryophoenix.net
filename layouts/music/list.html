@@ -1,0 +1,16 @@
+{{ define "main" }}
+<article>
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+
+  <div class="music-section-links">
+    {{- range .Pages.ByWeight }}
+    <a class="music-section-card" href="{{ .Permalink }}">
+      <h2>{{ .Title }}</h2>
+      {{ with .Params.description }}<p class="music-section-desc">{{ . }}</p>{{ end }}
+      <span class="read-more">Visit &rarr;</span>
+    </a>
+    {{- end }}
+  </div>
+</article>
+{{ end }}

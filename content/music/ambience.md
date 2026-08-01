@@ -1,7 +1,9 @@
 +++
-title = 'Music'
+title = 'Ambience'
 date = '2026-05-10'
+weight = 4
 draft = false
+description = ""
 
 # To add a track, copy the block below, uncomment it, and fill it in.
 # `audio` can be any absolute path or URL — e.g. a file rsynced to
@@ -15,5 +17,3 @@ draft = false
 # tags        = ["ambient", "field recording"]
 # cover       = "/media/music/covers/track-title.jpg"   # optional
 +++
-
-Original composition, mixing, and field recordings.

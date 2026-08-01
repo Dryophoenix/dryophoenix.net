@@ -1,43 +1,13 @@
 {{ define "main" }}
 <article>
+  <a class="back-link" href="/music">&larr; All music</a>
   <h1>{{ .Title }}</h1>
   {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
 
   {{ $tracks := .Params.tracks }}
   {{ if $tracks }}
   <div class="music-list">
-    {{- range $tracks }}
-    <div class="music-card">
-      {{ with .cover }}
-      <div class="music-cover" style="background-image:url('{{ . }}')"></div>
-      {{ end }}
-      <div class="music-body">
-        <div class="music-meta">
-          {{ with .date }}<time datetime="{{ . }}">{{ dateFormat "2 January 2006" . }}</time>{{ end }}
-          {{ with .tags }}
-          <span class="tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</span>
-          {{ end }}
-        </div>
-        <h2>{{ .title }}</h2>
-        {{ with .description }}<p class="music-desc">{{ . }}</p>{{ end }}
-
-        <div class="player" data-src="{{ .audio }}">
-          <button type="button" class="player-toggle" aria-label="Play">
-            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-          </button>
-          <div class="player-controls">
-            <input type="range" class="player-seek" value="0" min="0" max="100" step="0.1" aria-label="Seek">
-            <div class="player-time">
-              <span class="player-current">0:00</span>
-              <span class="player-duration">0:00</span>
-            </div>
-          </div>
-        </div>
-        <noscript><audio controls src="{{ .audio }}"></audio></noscript>
-      </div>
-    </div>
-    {{- end }}
+    {{- range $tracks }}{{ partial "music-card.html" . }}{{- end }}
   </div>
 
   <script>
@@ -110,7 +80,7 @@
 
   {{ else }}
   <div class="coming-soon">
-    <p class="cs-label">sample packs &amp; field recordings</p>
+    <p class="cs-label">{{ .Title }}</p>
     <h2>Coming Soon</h2>
     <p>
       Tracks are on the way — check back soon.

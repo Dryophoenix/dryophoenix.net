@@ -37,7 +37,18 @@
             <li><a href="/portfolio"{{ if strings.HasPrefix .RelPermalink "/portfolio"}}aria-current="page"{{ end }}>portfolio</a></li>
             <li><a href="/cv"       {{ if strings.HasPrefix .RelPermalink "/cv"       }}aria-current="page"{{ end }}>cv</a></li>
             <li><a href="/blog"     {{ if strings.HasPrefix .RelPermalink "/blog"     }}aria-current="page"{{ end }}>blog</a></li>
-            <li><a href="/music"    {{ if strings.HasPrefix .RelPermalink "/music"    }}aria-current="page"{{ end }}>music</a></li>
+            <li class="nav-dropdown">
+              <a href="/music" {{ if strings.HasPrefix .RelPermalink "/music" }}aria-current="page"{{ end }}>music</a>
+              {{ with site.GetPage "/music" }}
+              {{ if .Pages }}
+              <ul class="nav-dropdown-menu">
+                {{ range .Pages.ByWeight }}
+                <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+                {{ end }}
+              </ul>
+              {{ end }}
+              {{ end }}
+            </li>
           </ul>
           <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle colour scheme"></button>
         </nav>

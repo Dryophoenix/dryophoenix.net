@@ -232,10 +232,12 @@ body {
 .site-column > header {
   background: var(--nav-bg);
   border: 2px solid var(--nav-border);
-  overflow: hidden;
   box-shadow: inset 0 3px 0 var(--nav-stripe);
   margin-bottom: 1.5rem;
   padding: 0;
+  /* No overflow clipping here — `overflow-y: auto`/`hidden` both clip the
+     absolutely-positioned music dropdown just as much as each other, since
+     it extends past the header's own height either way. */
 }
 
 .site-column > header > nav {
@@ -243,7 +245,6 @@ body {
   align-items: stretch;
   padding: 3px 0 0;             /* offset for the accent stripe   */
   gap: 0;
-  overflow: hidden;
 }
 
 /* Brand — italic Playfair masthead */
@@ -321,6 +322,62 @@ body {
   text-decoration: underline;
   text-underline-offset: 3px;
   filter: brightness(1.25);
+}
+
+/* --- Nav dropdown (music) ------------------------------------- */
+.nav-dropdown { position: relative; }
+
+.nav-dropdown-menu {
+  display: block;               /* Pico's `nav ul { display: flex }` would stack these into a row otherwise */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--nav-c5);
+  border: 2px solid var(--nav-border);
+  border-top: none;
+  z-index: 20;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+}
+
+.nav-dropdown-menu li { display: block; }
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown-menu li { margin: 0; padding: 0; }
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 0.65rem 1rem;
+  color: #e8d5a8;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  transition: filter 0.15s, background 0.15s;
+}
+
+.nav-dropdown-menu li:last-child a { border-bottom: none; }
+
+.nav-dropdown-menu a:hover {
+  filter: brightness(1.35);
+  background: rgba(255,255,255,.06);
 }
 
 /* Theme toggle — small, right-aligned inside the nav bar */
@@ -662,6 +719,38 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
   margin: 0 auto;
 }
 
+.music-section-links { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem; }
+
+.music-section-card {
+  display: block;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 1.4rem 1.75rem;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.music-section-card:hover { border-color: var(--accent); }
+
+.music-section-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+  border: none;
+  padding: 0;
+  color: var(--h1);
+}
+
+.music-section-desc {
+  color: var(--text);
+  font-size: 0.93rem;
+  opacity: 0.85;
+  margin: 0 0 0.9rem;
+}
+
+.music-section-card .read-more { display: inline-block; }
+
 .music-list { display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem; }
 
 .music-card {
@@ -900,6 +989,23 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
   }
 
   .gh-repos { grid-template-columns: 1fr 1fr; }
+}
+
+/* Devices without real hover (touch) never get a chance to open the
+   dropdown, so don't offer it — gated on hover capability, not viewport
+   width, since a narrow desktop window still has a working mouse. */
+@media (hover: none), (pointer: coarse) {
+  .nav-dropdown-menu { display: none; }
+}
+
+/* Below ~600px the nav row itself no longer fits (confirmed: 614px fits,
+   375px overflows by ~170px) — clip it here specifically, decoupled from
+   the dropdown's own hover-based visibility above. Real phones are caught
+   by both queries; this one alone just stops the nav from bleeding off
+   the edge of a real mouse-driven window that happens to be this narrow. */
+@media (max-width: 600px) {
+  .site-column > header { overflow: hidden; }
+  .site-column > header > nav { overflow: hidden; }
 }
 
 @media (max-width: 560px) {
