@@ -8,6 +8,12 @@
 :root {
   --col-width:    960px;
 
+  /* Horizontal padding of a top-nav link. The music dropdown derives its own
+     inset from this (minus its 2px border) so the dropdown labels stay visually
+     flush with the nav label above them. It shrinks at the breakpoints below,
+     so both must move together or the text drifts out of alignment. */
+  --nav-pad-x:    1.1rem;
+
   --bg-page:      #8c6535;          /* warm umber          */
   --page-tex:     rgba(0,0,0,.07);
 
@@ -307,7 +313,7 @@ body {
   font-size: 0.76rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  padding: 0.75rem 1.1rem;
+  padding: 0.75rem var(--nav-pad-x);
   text-decoration: none;
   border-right: 2px solid rgba(255,255,255,.1);
   margin: 0;
@@ -340,7 +346,7 @@ body {
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--nav-c5);
+  background: var(--nav-c5);          /* same colour as the MUSIC nav block */
   border: 2px solid var(--nav-border);
   border-top: none;
   z-index: 20;
@@ -348,6 +354,25 @@ body {
   visibility: hidden;
   transform: translateY(-4px);
   transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+}
+
+/* Pico's `nav ul:first-of-type`/`:last-of-type` apply margin-left/right:-9px,
+   and at (0,1,2) they out-specify the lone class above, so its `margin: 0` is
+   discarded and the menu hangs 9px left of the nav item. Two classes (0,2,0)
+   wins that back. Kept separate from the block above so the `display: block`
+   there stays at (0,1,0) -- raising it would beat the `display: none` touch
+   rule and un-hide the dropdown on phones. */
+.nav-dropdown > .nav-dropdown-menu { margin: 0; }
+
+/* While the menu is open, continue its 2px frame up through the MUSIC block so
+   the left edge is one unbroken line rather than one that begins abruptly below
+   the nav item. Drawn as inset shadows, not real borders, so opening the menu
+   can't reflow the nav bar by 2px -- and the shadow occupies the same 2px the
+   menu's border does, so the two line up exactly. */
+.nav-dropdown:hover > a,
+.nav-dropdown:focus-within > a {
+  box-shadow: inset 2px 0 0 var(--nav-border),
+              inset -2px 0 0 var(--nav-border);
 }
 
 .nav-dropdown-menu li { display: block; }
@@ -369,7 +394,9 @@ body {
      row fill and separators didn't line up with the bars. The top-nav links
      already reset this; the dropdown links need it too. */
   margin: 0;
-  padding: 0.65rem 1rem;
+  /* Subtract the menu's 2px left border so these labels land on exactly the
+     same x as the nav label above, which has no border of its own. */
+  padding: 0.65rem calc(var(--nav-pad-x) - 2px);
   color: #e8d5a8;
   font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
@@ -992,8 +1019,10 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
   .site-column > main   { border-left: none; border-right: none; padding: 1.5rem 1.25rem; }
   .site-column > footer { border-left: none; border-right: none; }
 
+  :root { --nav-pad-x: 0.7rem; }   /* dropdown inset follows via var */
+
   .site-column > header > nav > ul > li > a {
-    padding: 0.75rem 0.7rem;
+    padding: 0.75rem var(--nav-pad-x);
     letter-spacing: 0.07em;
     font-size: 0.67rem;
   }
@@ -1019,8 +1048,10 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
 }
 
 @media (max-width: 560px) {
+  :root { --nav-pad-x: 0.5rem; }   /* dropdown inset follows via var */
+
   .site-column > header > nav > ul > li > a {
-    padding: 0.6rem 0.5rem;
+    padding: 0.6rem var(--nav-pad-x);
     letter-spacing: 0.03em;
     font-size: 0.63rem;
   }
