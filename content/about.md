@@ -20,7 +20,7 @@ My educational background is in music technology, and I'm soon finishing up a de
 
 ## Interests
 
-My focus on voice comes from a broader interest in language — the temporal and spectral markers of speech are, I think, key linguistic features, and figuring out how to carry them across languages is something I expect to spend a long time on. If I am to continue school, I would go into research on thsi subject.
+My focus on voice comes from a broader interest in language. The temporal and spectral markers of speech are, I think, key linguistic features, and figuring out how to carry them across languages is something I expect to spend a long time on. If I am to pursue a doctorate, I would go into research on this subject.
 
 ## Get in touch
 
