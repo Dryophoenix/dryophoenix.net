@@ -737,7 +737,48 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
 
 .player-controls { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
 
-.player-seek { width: 100%; accent-color: var(--accent); }
+.player-seek {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.player-seek:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.player-seek::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--card-border);
+  border-radius: 2px;
+}
+
+.player-seek::-moz-range-track {
+  height: 4px;
+  background: var(--card-border);
+  border-radius: 2px;
+}
+
+.player-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.player-seek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.player-seek:hover::-webkit-slider-thumb,
+.player-seek:hover::-moz-range-thumb { background: var(--accent-ho); }
 
 .player-time {
   display: flex;
