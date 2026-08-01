@@ -19,30 +19,29 @@ description = ""
 
 [[tracks]]
 title       = "ASFALTWNBK"
-audio       = ""
+audio       = "/media/music/asfaltwnbk.mp3"
 date        = "2026-07-31"
-description = "\"A song for a loss that will never be known\" uses natural sound to modify how \
-dramatic it's perceived by the listener."
+description = "\"A song for a loss that will never be known\" uses natural sound to modify how dramatic it's perceived by the listener."
 tags        = []
 
 [[tracks]]
-title       = ""
-audio       = ""
-date        = ""
+title       = "Cinematic Rush"
+audio       = "/media/music/cinematic-rush.mp3"
+date        = "2026-07-31"
 description = ""
 tags        = []
 
 [[tracks]]
-title       = ""
-audio       = ""
-date        = ""
+title       = "Music Box"
+audio       = "/media/music/music-box.mp3"
+date        = "2026-07-31"
 description = ""
 tags        = []
 
 [[tracks]]
-title       = ""
-audio       = ""
-date        = ""
+title       = "Periodic"
+audio       = "/media/music/periodic.mp3"
+date        = "2026-07-31"
 description = ""
 tags        = []
 +++
