@@ -9,8 +9,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/pico.classless.css">
-    <link rel="stylesheet" href="/style.css">
+    <!--
+      Stylesheets live in assets/ and are content-hashed by `fingerprint`, so the
+      filename changes whenever the CSS changes. nginx serves these with no
+      Cache-Control, which means browsers cache by heuristic freshness — with a
+      fixed /style.css that produced new HTML paired with stale CSS. A hashed
+      URL can't be served stale.
+    -->
+    {{ $pico  := resources.Get "pico.classless.css" | minify | fingerprint }}
+    {{ $style := resources.Get "style.css"          | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $pico.RelPermalink }}"  integrity="{{ $pico.Data.Integrity }}">
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
     <!--
       Apply theme before CSS paints to prevent a flash of the wrong mode.
       Priority: localStorage (explicit user choice) → prefers-color-scheme → light.

@@ -23,8 +23,8 @@
   --nav-c1:       #5c3815;          /* about      */
   --nav-c2:       #4a2c0a;          /* portfolio  */
   --nav-c3:       #6e4818;          /* cv         */
-  --nav-c4:       #3d4a18;          /* blog       */
-  --nav-c5:       #2d4228;          /* music      */
+  --nav-c4:       #5e4215;          /* blog       */
+  --nav-c5:       #4a3510;          /* music      */
 
   --h1:           #1c1208;
   --h2:           #3a2810;
@@ -42,25 +42,32 @@
 }
 
 /* === DARK MODE — eggshell on forest green ============= */
+/*
+   Applied by TWO mechanisms so Firefox's independent theme
+   setting can't break it:
+     1. @media prefers-color-scheme  (automatic, when it works)
+     2. html[data-theme="dark"]      (explicit, set by JS toggle)
+   The [data-theme] selectors have higher specificity than :root
+   inside a media query, so an explicit choice always wins.
+*/
+
+/* Shared dark-mode variable values — defined once as a custom property
+   block, then applied by both the media query and the attribute selector. */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-page:      #1a0e06;
     --page-tex:     rgba(255,255,255,.025);
-
-    --bg-panel:     #1c3826;          /* deep forest green   */
-    --text:         #ede8d5;          /* eggshell            */
-
+    --bg-panel:     #1c3826;
+    --text:         #ede8d5;
     --nav-bg:       #0e0702;
     --nav-border:   #2d5035;
     --nav-title-bg: #060402;
     --nav-stripe:   #4a8a50;
-
     --nav-c1:       #2d5838;
     --nav-c2:       #1e4528;
     --nav-c3:       #3a5820;
     --nav-c4:       #2a4a30;
     --nav-c5:       #1e3a20;
-
     --h1:           #ede8d5;
     --h2:           #c8c098;
     --h3:           #a8956a;
@@ -69,12 +76,113 @@
     --h1-rule:      #2d5035;
     --muted:        #8a9870;
     --footer-fg:    #5a8850;
-
     --tag-bg:       rgba(138,200,112,.15);
     --tag-fg:       #8ac870;
     --card-border:  rgba(45,80,53,.5);
     --card-bg:      #1e4530;
   }
+}
+
+/* Explicit dark — JS sets this; beats the media query via specificity */
+html[data-theme="dark"] {
+  --bg-page:      #1a0e06;
+  --page-tex:     rgba(255,255,255,.025);
+  --bg-panel:     #1c3826;
+  --text:         #ede8d5;
+  --nav-bg:       #0e0702;
+  --nav-border:   #2d5035;
+  --nav-title-bg: #060402;
+  --nav-stripe:   #4a8a50;
+  --nav-c1:       #2d5838;
+  --nav-c2:       #1e4528;
+  --nav-c3:       #3a5820;
+  --nav-c4:       #2a4a30;
+  --nav-c5:       #1e3a20;
+  --h1:           #ede8d5;
+  --h2:           #c8c098;
+  --h3:           #a8956a;
+  --accent:       #8ac870;
+  --accent-ho:    #a8e090;
+  --h1-rule:      #2d5035;
+  --muted:        #8a9870;
+  --footer-fg:    #5a8850;
+  --tag-bg:       rgba(138,200,112,.15);
+  --tag-fg:       #8ac870;
+  --card-border:  rgba(45,80,53,.5);
+  --card-bg:      #1e4530;
+}
+
+/* Explicit light — overrides the dark media query when user forces light */
+html[data-theme="light"] {
+  --bg-page:      #8c6535;
+  --page-tex:     rgba(0,0,0,.07);
+  --bg-panel:     #f5f0e4;
+  --text:         #1c1208;
+  --nav-bg:       #3e2008;
+  --nav-border:   #6b4520;
+  --nav-title-bg: #251305;
+  --nav-stripe:   #c8902a;
+  --nav-c1:       #5c3815;
+  --nav-c2:       #4a2c0a;
+  --nav-c3:       #6e4818;
+  --nav-c4:       #5e4215;
+  --nav-c5:       #4a3510;
+  --h1:           #1c1208;
+  --h2:           #3a2810;
+  --h3:           #4a3820;
+  --accent:       #3d5820;
+  --accent-ho:    #2a3d15;
+  --h1-rule:      #5c3815;
+  --muted:        #7a6040;
+  --footer-fg:    #c4a060;
+  --tag-bg:       rgba(61,72,24,.12);
+  --tag-fg:       #3d4818;
+  --card-border:  rgba(92,56,21,.25);
+  --card-bg:      #faf6ed;
+}
+
+/* === ACCESSIBILITY ============================================
+   Skip link: visually hidden until focused by keyboard.
+   Focus-visible: explicit, theme-aware outlines for keyboard nav.
+   ============================================================= */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 200;
+  background: var(--nav-title-bg);
+  color: var(--footer-fg);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 1.25rem;
+  border-bottom: 2px solid var(--nav-border);
+  transition: top 0.12s;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;           /* the border already makes it obvious */
+}
+
+/* Keyboard focus rings — use accent colour so they're visible on
+   all panel backgrounds, suppressed for mouse/touch (focus-visible) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 0;
+}
+
+/* In the nav bar use the amber stripe so it contrasts the dark bg */
+.site-column > header > nav > ul > li > a:focus-visible,
+.site-column > header > nav > a:focus-visible,
+.site-column > header > nav .theme-toggle:focus-visible {
+  outline-color: var(--nav-stripe);
+  outline-offset: -2px;  /* inset so it stays inside the block */
 }
 
 /* === PAGE SHELL ================================================
@@ -124,10 +232,12 @@ body {
 .site-column > header {
   background: var(--nav-bg);
   border: 2px solid var(--nav-border);
-  overflow: hidden;
   box-shadow: inset 0 3px 0 var(--nav-stripe);
   margin-bottom: 1.5rem;
   padding: 0;
+  /* No overflow clipping here — `overflow-y: auto`/`hidden` both clip the
+     absolutely-positioned music dropdown just as much as each other, since
+     it extends past the header's own height either way. */
 }
 
 .site-column > header > nav {
@@ -135,7 +245,6 @@ body {
   align-items: stretch;
   padding: 3px 0 0;             /* offset for the accent stripe   */
   gap: 0;
-  overflow: hidden;
 }
 
 /* Brand — italic Playfair masthead */
@@ -195,8 +304,8 @@ body {
   color: #e8d5a8;
   font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   padding: 0.75rem 1.1rem;
   text-decoration: none;
@@ -207,6 +316,94 @@ body {
 }
 
 .site-column > header > nav > ul > li > a:hover { filter: brightness(1.35); }
+
+/* Active page indicator — underline, not colour-only (WCAG 1.4.1) */
+.site-column > header > nav > ul > li > a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  filter: brightness(1.25);
+}
+
+/* --- Nav dropdown (music) ------------------------------------- */
+.nav-dropdown { position: relative; }
+
+.nav-dropdown-menu {
+  display: block;               /* Pico's `nav ul { display: flex }` would stack these into a row otherwise */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--nav-c5);
+  border: 2px solid var(--nav-border);
+  border-top: none;
+  z-index: 20;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+}
+
+.nav-dropdown-menu li { display: block; }
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown-menu li { margin: 0; padding: 0; }
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 0.65rem 1rem;
+  color: #e8d5a8;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  transition: filter 0.15s, background 0.15s;
+}
+
+.nav-dropdown-menu li:last-child a { border-bottom: none; }
+
+.nav-dropdown-menu a:hover {
+  filter: brightness(1.35);
+  background: rgba(255,255,255,.06);
+}
+
+/* Theme toggle — small, right-aligned inside the nav bar */
+.site-column > header > nav .theme-toggle,
+.theme-toggle {
+  align-self: center;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 0;
+  color: rgba(232,213,168,.55);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.08em;
+  padding: 0.22rem 0.5rem;
+  margin: 0 0.6rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.site-column > header > nav .theme-toggle:hover,
+.theme-toggle:hover {
+  color: rgba(232,213,168,.95);
+  border-color: rgba(255,255,255,.4);
+}
 
 /* === CONTENT PANEL ============================================= */
 
@@ -233,7 +430,7 @@ body {
   padding: 0.8rem 1rem;
 }
 
-.site-column > footer p { margin: 0; }
+.site-column > footer p { margin: 0; color: var(--footer-fg); }
 
 /* === CONTENT TYPOGRAPHY ======================================== */
 
@@ -366,6 +563,34 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
 .read-more:hover { text-decoration: underline; }
 .no-posts { color: var(--muted); font-style: italic; }
 
+/* Post summary — rendered HTML from <!--more--> divider.
+   Scoped down so headings and lists don't blow up to full page sizes. */
+.post-summary { font-size: 0.93rem; opacity: 0.85; margin: 0 0 0.9rem; }
+
+.post-summary p  { margin: 0 0 0.5rem; }
+.post-summary p:last-child { margin-bottom: 0; }
+
+.post-summary h1,
+.post-summary h2,
+.post-summary h3,
+.post-summary h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  border: none;
+  padding: 0;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.post-summary ul,
+.post-summary ol {
+  margin: 0 0 0.5rem;
+  padding-left: 1.4rem;
+}
+
+.post-summary li { margin-bottom: 0.15rem; }
+
 /* Individual post */
 .blog-post .post-header { margin-bottom: 2rem; }
 .blog-post .post-header h1 { margin-bottom: 0.5rem; }
@@ -494,6 +719,165 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
   margin: 0 auto;
 }
 
+.music-section-links { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem; }
+
+.music-section-card {
+  display: block;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 1.4rem 1.75rem;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.music-section-card:hover { border-color: var(--accent); }
+
+.music-section-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+  border: none;
+  padding: 0;
+  color: var(--h1);
+}
+
+.music-section-desc {
+  color: var(--text);
+  font-size: 0.93rem;
+  opacity: 0.85;
+  margin: 0 0 0.9rem;
+}
+
+.music-section-card .read-more { display: inline-block; }
+
+.music-list { display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem; }
+
+.music-card {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 2rem 2.25rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.music-cover {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid var(--card-border);
+}
+
+.music-body { flex: 1; min-width: 0; }
+
+.music-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.music-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  border: none;
+  padding: 0;
+  color: var(--h1);
+}
+
+.music-desc {
+  color: var(--text);
+  font-size: 0.93rem;
+  opacity: 0.85;
+  margin: 0 0 1.25rem;
+}
+
+.player { display: flex; align-items: center; gap: 1rem; }
+
+.player-toggle {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.player-toggle:hover { background: var(--accent); color: var(--bg-panel); }
+.player-toggle svg { width: 18px; height: 18px; fill: currentColor; }
+
+.player-controls { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+
+.player-seek {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.player-seek:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.player-seek::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--card-border);
+  border-radius: 2px;
+}
+
+.player-seek::-moz-range-track {
+  height: 4px;
+  background: var(--card-border);
+  border-radius: 2px;
+}
+
+.player-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.player-seek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.player-seek:hover::-webkit-slider-thumb,
+.player-seek:hover::-moz-range-thumb { background: var(--accent-ho); }
+
+.player-time {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
 /* === GITHUB WIDGET ============================================= */
 
 .github-widget {
@@ -600,19 +984,39 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
 
   .site-column > header > nav > ul > li > a {
     padding: 0.75rem 0.7rem;
-    letter-spacing: 0.08em;
-    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+    font-size: 0.67rem;
   }
 
   .gh-repos { grid-template-columns: 1fr 1fr; }
 }
 
+/* Devices without real hover (touch) never get a chance to open the
+   dropdown, so don't offer it — gated on hover capability, not viewport
+   width, since a narrow desktop window still has a working mouse. */
+@media (hover: none), (pointer: coarse) {
+  .nav-dropdown-menu { display: none; }
+}
+
+/* Below ~600px the nav row itself no longer fits (confirmed: 614px fits,
+   375px overflows by ~170px) — clip it here specifically, decoupled from
+   the dropdown's own hover-based visibility above. Real phones are caught
+   by both queries; this one alone just stops the nav from bleeding off
+   the edge of a real mouse-driven window that happens to be this narrow. */
+@media (max-width: 600px) {
+  .site-column > header { overflow: hidden; }
+  .site-column > header > nav { overflow: hidden; }
+}
+
 @media (max-width: 560px) {
   .site-column > header > nav > ul > li > a {
     padding: 0.6rem 0.5rem;
-    letter-spacing: 0.04em;
-    font-size: 0.58rem;
+    letter-spacing: 0.03em;
+    font-size: 0.63rem;
   }
 
   .gh-repos { grid-template-columns: 1fr; }
+
+  .music-card { flex-direction: column; align-items: stretch; }
+  .music-cover { width: 100%; height: 160px; }
 }
