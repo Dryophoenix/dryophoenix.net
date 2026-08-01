@@ -332,6 +332,10 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
+  /* Size to the longest item. Pinned at a fixed min-width the rows' nowrap text
+     outgrew the menu box, so each row's background and hover fill overhung the
+     visible bar by ~18px. min-width is now just a floor for short labels. */
+  width: max-content;
   min-width: 180px;
   margin: 0;
   padding: 0;
@@ -359,6 +363,12 @@ body {
 
 .nav-dropdown-menu a {
   display: block;
+  /* Pico puts margin:-9px on nav links to offset its own padding. Left/right
+     inflated each row 18px past the menu box (a width:auto block grows by its
+     negative margins) and top/bottom overlapped adjacent rows by 9px, so the
+     row fill and separators didn't line up with the bars. The top-nav links
+     already reset this; the dropdown links need it too. */
+  margin: 0;
   padding: 0.65rem 1rem;
   color: #e8d5a8;
   font-family: 'Courier New', Courier, monospace;
