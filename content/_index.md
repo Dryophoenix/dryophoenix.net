@@ -1,11 +1,10 @@
 +++
-title = "hi, i'm dryo!"
+title = "hi, i'm neph!"
 subtitle = 'nice to see you here :)'
 date = '2026-05-10'
 draft = false
 +++
 
-A programmer, an audio engineer, and a student who loves language. I'm on a path towards audio work and research, and I'm hoping to get into a master's for either
-CS or Phonetics/Linguistics.
+An audio engineer and a student who loves language. I'm on a path towards audio work, especially composition and mixing.
 
-Because I learn by teaching, I'm learning in public, so [learn with me.](https://dryophoenix.net/blog)
+Because I learn by doing, I'm always learning. Take a chance with me!

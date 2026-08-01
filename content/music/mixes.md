@@ -3,7 +3,7 @@ title = 'Mixes'
 date = '2026-05-10'
 weight = 2
 draft = false
-description = ""
+description = "Tracks I've mixed."
 
 # To add a track, copy the block below, uncomment it, and fill it in.
 # `audio` can be any absolute path or URL — e.g. a file rsynced to
@@ -17,10 +17,4 @@ description = ""
 # tags        = ["ambient", "field recording"]
 # cover       = "/media/music/covers/track-title.jpg"   # optional
 
-[[tracks]]
-title       = ""
-audio       = ""
-date        = ""
-description = ""
-tags        = []
 +++
