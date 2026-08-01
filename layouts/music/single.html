@@ -31,9 +31,17 @@
       var duration   = player.querySelector('.player-duration');
       var seeking    = false;
 
+      function setHidden(el, isHidden) {
+        // el.hidden is a no-op here: the reflected IDL property only works on
+        // HTML elements in this engine, and silently drops on these inline
+        // <svg> icons instead of erroring -- toggle the attribute directly.
+        if (isHidden) { el.setAttribute('hidden', ''); }
+        else { el.removeAttribute('hidden'); }
+      }
+
       function setPlaying(isPlaying) {
-        iconPlay.hidden  = isPlaying;
-        iconPause.hidden = !isPlaying;
+        setHidden(iconPlay, isPlaying);
+        setHidden(iconPause, !isPlaying);
         toggle.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
       }
 
