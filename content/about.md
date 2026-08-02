@@ -36,10 +36,7 @@ computers and piano, and I've never wanted to separate the two.
 
 ## Interests
 
-My focus on voice comes from a broader interest in language. The temporal and
-spectral markers of speech are, I think, key linguistic features, and figuring
-out how to carry them across languages is something I expect to spend a long
-time on.
+The temporal and spectral markers of speech are, I think, key to how meaning is communicated within languages, and figuring out how to translate those features across languages is something I expect to spend a long time on.
 
 ## Get in touch
 

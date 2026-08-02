@@ -22,8 +22,6 @@ draft = false
 
 **Technical:** Comfortable working across audio software environments, scripting, and troubleshooting (Bash, Python, JS)
 
-**Programming:** Novice at C and systems programming.
-
 ---
 
 ## Education
