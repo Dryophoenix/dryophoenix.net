@@ -38,8 +38,8 @@
           <ul role="list">
             <li><a href="/about"    {{ if strings.HasPrefix .RelPermalink "/about"    }}aria-current="page"{{ end }}>about</a></li>
             <li class="nav-dropdown">
-              <a href="/music" {{ if strings.HasPrefix .RelPermalink "/music" }}aria-current="page"{{ end }}>music</a>
-              {{ with site.GetPage "/music" }}
+              <a href="/portfolio" {{ if strings.HasPrefix .RelPermalink "/portfolio" }}aria-current="page"{{ end }}>portfolio</a>
+              {{ with site.GetPage "/portfolio" }}
               {{ if .Pages }}
               <ul class="nav-dropdown-menu">
                 {{ range .Pages.ByWeight }}

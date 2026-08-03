@@ -27,10 +27,10 @@
 
   /* nav blocks — earth → forest left→right */
   --nav-c1:       #5c3815;          /* about      */
-  --nav-c2:       #4a2c0a;          /* portfolio  */
+  --nav-c2:       #4a2c0a;          /* unused — was the original portfolio nav slot, before that page was removed */
   --nav-c3:       #6e4818;          /* cv         */
   --nav-c4:       #5e4215;          /* blog       */
-  --nav-c5:       #4a3510;          /* music      */
+  --nav-c5:       #4a3510;          /* portfolio (formerly "music" — nav item + dropdown share this) */
 
   --h1:           #1c1208;
   --h2:           #3a2810;
@@ -242,7 +242,7 @@ body {
   margin-bottom: 1.5rem;
   padding: 0;
   /* No overflow clipping here — `overflow-y: auto`/`hidden` both clip the
-     absolutely-positioned music dropdown just as much as each other, since
+     absolutely-positioned portfolio dropdown just as much as each other, since
      it extends past the header's own height either way. */
 }
 
@@ -293,7 +293,7 @@ body {
 
 /* Coloured blocks — earth → forest gradient */
 .site-column > header > nav > ul > li:nth-child(1) > a { background: var(--nav-c1); }
-.site-column > header > nav > ul > li:nth-child(2) > a { background: var(--nav-c5); } /* music kept its original colour when it moved into portfolio's old slot */
+.site-column > header > nav > ul > li:nth-child(2) > a { background: var(--nav-c5); } /* this item (now "portfolio") kept its original colour when it moved into the vacated 2nd slot */
 .site-column > header > nav > ul > li:nth-child(3) > a { background: var(--nav-c3); }
 .site-column > header > nav > ul > li:nth-child(4) > a { background: var(--nav-c4); }
 
@@ -329,7 +329,7 @@ body {
   filter: brightness(1.25);
 }
 
-/* --- Nav dropdown (music) ------------------------------------- */
+/* --- Nav dropdown (portfolio) ------------------------------------- */
 .nav-dropdown { position: relative; }
 
 .nav-dropdown-menu {
@@ -345,7 +345,7 @@ body {
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--nav-c5);          /* same colour as the MUSIC nav block */
+  background: var(--nav-c5);          /* same colour as the PORTFOLIO nav block */
   border: 2px solid var(--nav-border);
   border-top: none;
   z-index: 20;
@@ -837,6 +837,14 @@ main h3 + p > em:first-child { color: var(--muted); font-size: 0.88em; }
   font-size: 0.93rem;
   opacity: 0.85;
   margin: 0 0 1.25rem;
+}
+
+.media-video video {
+  display: block;
+  width: 100%;
+  max-height: 480px;
+  border: 1px solid var(--card-border);
+  background: #000;
 }
 
 .player { display: flex; align-items: center; gap: 1rem; }

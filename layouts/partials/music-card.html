@@ -12,6 +12,11 @@
     <h2>{{ .title }}</h2>
     {{ with .description }}<p class="music-desc">{{ . }}</p>{{ end }}
 
+    {{ if .video }}
+    <div class="media-video">
+      <video controls {{ with .cover }}poster="{{ . }}"{{ end }} src="{{ .video }}"></video>
+    </div>
+    {{ else if .audio }}
     <div class="player" data-src="{{ .audio }}">
       <button type="button" class="player-toggle" aria-label="Play">
         <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
@@ -26,5 +31,6 @@
       </div>
     </div>
     <noscript><audio controls src="{{ .audio }}"></audio></noscript>
+    {{ end }}
   </div>
 </div>

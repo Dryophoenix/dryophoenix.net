@@ -24,7 +24,7 @@ draft = false
 
 ### Other Audio Work
 
-See [Music](https://dryophoenix.net/music)
+See [Portfolio](https://dryophoenix.net/portfolio)
 
 ---
 
