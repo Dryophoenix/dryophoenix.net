@@ -26,8 +26,8 @@ fully produced track, along with my [compositional work](/music/compositions).
 ## Background
 
 My educational background is in music technology.
-Alongside that, I'd worked as a lab engineer and TA in my
-department since 2024. Teaching students through their own technical problems
+Alongside that, I worked as a lab engineer and TA in my
+department from 2024 to 2026. Teaching students through their own technical problems
 has done as much for my understanding as any class has.
 
 What I care about is what the processing is actually doing to the signal, not
@@ -36,12 +36,16 @@ computers and piano, and I've never wanted to separate the two.
 
 ## Interests
 
-The temporal and spectral markers of speech are, I think, key to how meaning is communicated within languages, and figuring out how to translate those features across languages is something I expect to spend a long time on.
+I used to want to know everything before I understood how impossible that is. I tried to learn German to understand English, and I tried to learn Latin to understand French to understand English, and I became fascinated by linguistics along the way, even if I haven't studied it much.
+
+Through my audio work, though, I found that I believe the temporal and spectral markers of speech must be meaningful, and they must be key to how meaning is communicated between languages. Figuring out how to translate those features across languages is something I could spend my life on.
 
 ## Get in touch
 
-I'm available for mixing and composition work. Tell me about your project! A
+I'm available for mixing and composition commissions, so tell me about your project! A
 rough scope, your timeline, and a reference track or two is plenty for me to
 start working from.
+
+If you're a small team (and especially if you're on a game jam), email me anyway! I always want to meet new people, and I love working on projects that tell a story. Games and film tell stories, and that's where I see myself.
 
 [neph@dryophoenix.net](mailto:neph@dryophoenix.net)
