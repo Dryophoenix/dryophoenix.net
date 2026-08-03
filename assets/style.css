@@ -293,10 +293,9 @@ body {
 
 /* Coloured blocks — earth → forest gradient */
 .site-column > header > nav > ul > li:nth-child(1) > a { background: var(--nav-c1); }
-.site-column > header > nav > ul > li:nth-child(2) > a { background: var(--nav-c2); }
+.site-column > header > nav > ul > li:nth-child(2) > a { background: var(--nav-c5); } /* music kept its original colour when it moved into portfolio's old slot */
 .site-column > header > nav > ul > li:nth-child(3) > a { background: var(--nav-c3); }
 .site-column > header > nav > ul > li:nth-child(4) > a { background: var(--nav-c4); }
-.site-column > header > nav > ul > li:nth-child(5) > a { background: var(--nav-c5); }
 
 /* Airline style — uppercase Courier, wide tracking, no rounding */
 .site-column > header > nav > ul > li > a,

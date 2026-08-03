@@ -37,9 +37,6 @@
           <a href="/" {{ if .IsHome }}aria-current="page"{{ end }}><strong>dryophoenix.net</strong></a>
           <ul role="list">
             <li><a href="/about"    {{ if strings.HasPrefix .RelPermalink "/about"    }}aria-current="page"{{ end }}>about</a></li>
-            <li><a href="/portfolio"{{ if strings.HasPrefix .RelPermalink "/portfolio"}}aria-current="page"{{ end }}>portfolio</a></li>
-            <li><a href="/cv"       {{ if strings.HasPrefix .RelPermalink "/cv"       }}aria-current="page"{{ end }}>cv</a></li>
-            <li><a href="/blog"     {{ if strings.HasPrefix .RelPermalink "/blog"     }}aria-current="page"{{ end }}>blog</a></li>
             <li class="nav-dropdown">
               <a href="/music" {{ if strings.HasPrefix .RelPermalink "/music" }}aria-current="page"{{ end }}>music</a>
               {{ with site.GetPage "/music" }}
@@ -52,6 +49,8 @@
               {{ end }}
               {{ end }}
             </li>
+            <li><a href="/cv"       {{ if strings.HasPrefix .RelPermalink "/cv"       }}aria-current="page"{{ end }}>cv</a></li>
+            <li><a href="/blog"     {{ if strings.HasPrefix .RelPermalink "/blog"     }}aria-current="page"{{ end }}>blog</a></li>
           </ul>
           <button class="theme-toggle" id="theme-toggle" aria-label="Toggle colour scheme"></button>
         </nav>

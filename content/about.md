@@ -20,7 +20,7 @@ standalone, or to be placed under a voice.
 - **Composition** — instrumental music for piano and MIDI instruments,
   written for your project
 
-You can hear this in practice on [weaponized incompetence](/portfolio), a
+You can hear this in practice on [weaponized incompetence](/music/mixes), a
 fully produced track, along with my [compositional work](/music/compositions).
 
 ## Background
