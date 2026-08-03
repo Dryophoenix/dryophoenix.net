@@ -1,7 +1,7 @@
 +++
 title = 'Field Recordings'
 date = '2026-05-10'
-weight = 3
+weight = 4
 draft = false
 description = "Sounds I've recorded."
 aliases = ["/music/field-recordings/"]

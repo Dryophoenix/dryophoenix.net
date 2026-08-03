@@ -1,10 +1,9 @@
 +++
-title = 'Ambience'
+title = 'Sound Design'
 date = '2026-05-10'
-weight = 5
+weight = 2
 draft = false
-description = "Soundscape, Electroacoustic and other ambient tracks."
-aliases = ["/music/ambience/"]
+description = ""
 
 # To add a track, copy the block below, uncomment it, and fill it in.
 # `audio` can be any absolute path or URL — e.g. a file rsynced to
@@ -21,4 +20,3 @@ aliases = ["/music/ambience/"]
 # tags        = ["ambient", "field recording"]
 # cover       = "/media/music/covers/track-title.jpg"   # optional, also used as the video poster image
 +++
-

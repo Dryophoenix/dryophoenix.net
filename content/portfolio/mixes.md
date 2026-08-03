@@ -1,7 +1,7 @@
 +++
 title = 'Mixes'
 date = '2026-05-10'
-weight = 2
+weight = 3
 draft = false
 description = "Tracks I've mixed."
 aliases = ["/music/mixes/"]
