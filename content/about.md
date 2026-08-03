@@ -4,8 +4,8 @@ subtitle = 'an audio engineer specializing in voice'
 draft = false
 +++
 
-I'm Neph (or Dryo), an audio engineer with a specific focus on voice. I mix,
-and I write instrumental music to spec. The voice specialization comes from
+I'm Neph (or Dryo), an audio engineer with a specific focus on voice. I mix, I record,
+and I write instrumental music. I'll do any of these for a project. The voice specialization comes from
 formal study in classical vocal performance and from a deeper interest in
 how speech actually works at a spectral and semantic level. The meaning of the
 lyrics is the single most important thing to me in a mix, and I believe that the

@@ -17,4 +17,11 @@ description = "Tracks I've mixed."
 # tags        = ["ambient", "field recording"]
 # cover       = "/media/music/covers/track-title.jpg"   # optional
 
+[[tracks]]
+title       = "Weaponized Incompetence"
+audio       = "/media/music/weaponized-incompetence.mp3"
+date        = ""
+description = "Weaponized Incompetence by Camille Kendrick is a song I recorded and mixed from start to the mastering step."
+tags        = ["Indie", "Vocals", "Strings"]
+
 +++
