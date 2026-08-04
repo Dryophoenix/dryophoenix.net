@@ -38,8 +38,9 @@ See [Portfolio](https://dryophoenix.net/portfolio)
 
 ## Education
 
+*coursework towards*
 ### Oregon State University — B.A. Music Technology and Production
-*Expected 2028*
+
 
 ---
 
