@@ -17,4 +17,8 @@ resources/_gen/
 
 # Secrets
 tools/dryoblog-sync.service
+tools/dryoblog.env
+
+# Blog repo clone cache (sync-blog.py fallback location)
+.cache/
 

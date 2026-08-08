@@ -29,7 +29,8 @@ Environment variables
 ---------------------
   HUGO_DIR          Absolute path to Hugo site root   (default: parent of this script)
   BLOG_REPO         Git URL of the blog repo          (default: dryophoenix/dryoblog)
-  CLONE_DIR         Where to clone the repo           (default: /tmp/dryoblog)
+  CLONE_DIR         Where to clone the repo           (default: $STATE_DIRECTORY under
+                                                       systemd, else HUGO_DIR/.cache/dryoblog)
 """
 
 import os
@@ -48,7 +49,16 @@ BLOG_REPO  = os.environ.get(
     "https://github.com/dryophoenix/dryoblog.git"
 )
 HUGO_DIR   = Path(os.environ.get("HUGO_DIR", Path(__file__).resolve().parent.parent))
-CLONE_DIR  = Path(os.environ.get("CLONE_DIR", "/tmp/dryoblog"))
+
+# Never default into /tmp. `git pull` runs inside this directory and honours
+# whatever .git/config and .git/hooks it finds there, so a world-writable
+# location lets any local user pre-seed a repo and get code execution as the
+# service account on the next push. Prefer systemd's StateDirectory
+# (/var/lib/dryoblog, created 0700 for the service user); otherwise fall back to
+# a private dir inside the site root. Hugo ignores dot-directories.
+_state     = os.environ.get("STATE_DIRECTORY")
+_default   = Path(_state.split(":")[0]) if _state else (HUGO_DIR / ".cache" / "dryoblog")
+CLONE_DIR  = Path(os.environ.get("CLONE_DIR", _default))
 CONTENT    = HUGO_DIR / "content" / "blog"
 DRY_RUN    = "--dry-run" in sys.argv
 
@@ -134,8 +144,36 @@ def has_front_matter(content: str) -> bool:
     return content.lstrip().startswith(("+++", "---"))
 
 
+def inject_weight(raw: str, weight: int) -> str:
+    """
+    Add `weight` to a post's existing front matter if it isn't already there.
+
+    Handles both TOML (+++) and YAML (---) delimiters, and emits the syntax that
+    matches the block it is editing — injecting TOML's `weight = N` into YAML
+    front matter would make the post unparseable. An unterminated or
+    unrecognised block is left untouched rather than mangled.
+    """
+    delim = "+++" if raw.startswith("+++") else "---" if raw.startswith("---") else None
+    if delim is None:
+        return raw
+
+    close = raw.find(delim, len(delim))
+    if close == -1:                      # no closing delimiter — leave it alone
+        return raw
+
+    block = raw[len(delim):close]
+    if re.search(r"^\s*weight\s*[:=]", block, re.MULTILINE):
+        return raw
+
+    line = f"weight  = {weight}\n" if delim == "+++" else f"weight: {weight}\n"
+    return raw[:close] + line + raw[close:]
+
+
 def make_front_matter(title: str, dt: date, weight: int) -> str:
-    safe_title = title.replace('"', '\\"')
+    # Escape backslashes before quotes — otherwise a title ending in `\` turns
+    # the closing quote into an escaped one and the TOML no longer parses,
+    # failing the build for the whole site.
+    safe_title = title.replace("\\", "\\\\").replace('"', '\\"')
     return (
         f'+++\n'
         f'title   = "{safe_title}"\n'
@@ -158,7 +196,17 @@ def git(*args, cwd=None):
 
 
 def clone_or_pull():
+    CLONE_DIR.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     if (CLONE_DIR / ".git").exists():
+        # Confirm the cached clone still points at the repo we expect before
+        # running git inside it.
+        origin = git("config", "--get", "remote.origin.url", cwd=CLONE_DIR)
+        if origin != BLOG_REPO:
+            log.warning("Cached clone points at %s, expected %s — re-cloning.", origin, BLOG_REPO)
+            shutil.rmtree(CLONE_DIR)
+            log.info("Cloning %s → %s", BLOG_REPO, CLONE_DIR)
+            git("clone", BLOG_REPO, str(CLONE_DIR))
+            return
         log.info("Pulling latest from %s", BLOG_REPO)
         git("pull", "--ff-only", cwd=CLONE_DIR)
     else:
@@ -175,7 +223,7 @@ def sync():
     repo_folders = {
         f.name: f
         for f in CLONE_DIR.iterdir()
-        if f.is_dir() and parse_folder(f.name)
+        if f.is_dir() and not f.is_symlink() and parse_folder(f.name)
     }
 
     if not repo_folders:
@@ -227,11 +275,18 @@ def sync():
         if not DRY_RUN:
             (dest_dir / "_index.md").write_text(month_index)
 
-        # Collect post files, sorted numerically
-        posts = sorted(
-            [p for p in src_folder.iterdir() if p.suffix == ".md"],
-            key=lambda p: int(p.stem) if p.stem.isdigit() else 9999,
-        )
+        # Collect post files, sorted numerically. Symlinks are skipped: git
+        # checks them out faithfully, so a `1.md` pointing at /etc/passwd would
+        # otherwise be read and republished onto the public site.
+        posts = []
+        for p in sorted(src_folder.iterdir()):
+            if p.suffix != ".md":
+                continue
+            if p.is_symlink() or not p.is_file():
+                log.warning("  Skipping non-regular file: %s/%s", folder_name, p.name)
+                continue
+            posts.append(p)
+        posts.sort(key=lambda p: int(p.stem) if p.stem.isdigit() else 9999)
 
         for post_file in posts:
             weight = int(post_file.stem) if post_file.stem.isdigit() else 9999
@@ -239,10 +294,7 @@ def sync():
 
             if has_front_matter(raw):
                 # Inject weight if not present (preserves everything else)
-                if "weight" not in raw.split("+++")[1] and "weight" not in raw.split("---")[0]:
-                    fm_end = raw.index("+++", 3) if raw.startswith("+++") else raw.index("---", 3)
-                    raw = raw[:fm_end] + f"weight  = {weight}\n" + raw[fm_end:]
-                final = raw
+                final = inject_weight(raw, weight)
             else:
                 title     = extract_title(raw, weight)
                 post_date = date(yr, mon_num, min(weight, 28))

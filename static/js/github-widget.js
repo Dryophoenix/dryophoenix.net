@@ -1,6 +1,25 @@
 (function () {
   'use strict';
 
+  // Everything below is interpolated into an innerHTML string, and all of it
+  // (bios, repo names, descriptions, avatar URLs) is GitHub-hosted content
+  // rather than anything this site controls. Escape text before it lands in
+  // markup, and allow only http(s) in href/src so a `javascript:` value can't
+  // ride in on an API field.
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;');
+  }
+
+  function safeUrl(s) {
+    var url = String(s == null ? '' : s);
+    return /^https?:\/\//i.test(url) ? esc(url) : '';
+  }
+
   function q(url) {
     return fetch(url, {
       headers: { 'Accept': 'application/vnd.github+json' }
@@ -14,9 +33,11 @@
     var u = box.dataset.username;
     if (!u) return;
 
+    var api = 'https://api.github.com/users/' + encodeURIComponent(u);
+
     Promise.all([
-      q('https://api.github.com/users/' + u),
-      q('https://api.github.com/users/' + u + '/repos?sort=updated&per_page=12')
+      q(api),
+      q(api + '/repos?sort=updated&per_page=12')
     ]).then(function (data) {
       var user = data[0];
       var repos = data[1]
@@ -26,16 +47,16 @@
 
       var html =
         '<div class="gh-profile">' +
-          '<img class="gh-avatar" src="' + user.avatar_url + '" alt="' + u + '&#x27;s GitHub avatar" loading="lazy">' +
+          '<img class="gh-avatar" src="' + safeUrl(user.avatar_url) + '" alt="' + esc(u) + '&#x27;s GitHub avatar" loading="lazy">' +
           '<div class="gh-info">' +
-            '<a class="gh-name" href="' + user.html_url + '" target="_blank" rel="noopener">' +
-              (user.name || u) +
+            '<a class="gh-name" href="' + safeUrl(user.html_url) + '" target="_blank" rel="noopener">' +
+              esc(user.name || u) +
             '</a>' +
-            (user.bio ? '<p class="gh-bio">' + user.bio + '</p>' : '') +
+            (user.bio ? '<p class="gh-bio">' + esc(user.bio) + '</p>' : '') +
             '<div class="gh-stats">' +
-              '<span>' + user.public_repos + ' repos</span>' +
-              '<span>' + user.followers + ' followers</span>' +
-              (user.location ? '<span>' + user.location + '</span>' : '') +
+              '<span>' + esc(user.public_repos) + ' repos</span>' +
+              '<span>' + esc(user.followers) + ' followers</span>' +
+              (user.location ? '<span>' + esc(user.location) + '</span>' : '') +
             '</div>' +
           '</div>' +
         '</div>';
@@ -44,12 +65,12 @@
         html += '<div class="gh-repos">';
         repos.forEach(function (r) {
           html +=
-            '<a class="gh-repo" href="' + r.html_url + '" target="_blank" rel="noopener">' +
-              '<div class="gh-repo-name">' + r.name + '</div>' +
-              (r.description ? '<div class="gh-repo-desc">' + r.description + '</div>' : '') +
+            '<a class="gh-repo" href="' + safeUrl(r.html_url) + '" target="_blank" rel="noopener">' +
+              '<div class="gh-repo-name">' + esc(r.name) + '</div>' +
+              (r.description ? '<div class="gh-repo-desc">' + esc(r.description) + '</div>' : '') +
               '<div class="gh-repo-meta">' +
-                (r.language ? '<span class="gh-lang">' + r.language + '</span>' : '') +
-                (r.stargazers_count ? '<span>&#9733; ' + r.stargazers_count + '</span>' : '') +
+                (r.language ? '<span class="gh-lang">' + esc(r.language) + '</span>' : '') +
+                (r.stargazers_count ? '<span>&#9733; ' + esc(r.stargazers_count) + '</span>' : '') +
               '</div>' +
             '</a>';
         });
@@ -61,7 +82,8 @@
       console.error('GitHub widget failed for @' + u + ':', err);
       box.innerHTML =
         '<p class="gh-error">Could not load GitHub profile. ' +
-        '<a href="https://github.com/' + u + '" target="_blank" rel="noopener">View @' + u + ' directly →</a></p>';
+        '<a href="https://github.com/' + encodeURIComponent(u) + '" target="_blank" rel="noopener">' +
+        'View @' + esc(u) + ' directly →</a></p>';
     });
   }
 

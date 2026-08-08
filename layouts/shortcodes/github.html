@@ -1,3 +1,10 @@
+{{- /*
+  NOTE: the live CSP sends `connect-src 'self'` and `img-src 'self' data:`, so
+  the widget's fetch to api.github.com and the avatar it renders are both
+  blocked in production and it will fall through to its error state. Before
+  using this shortcode, add `https://api.github.com` to connect-src and
+  `https://avatars.githubusercontent.com` to img-src in the nginx CSP header.
+*/ -}}
 {{- $username := .Get "username" | default "octocat" -}}
 <div class="github-widget" id="gh-{{ $username }}" data-username="{{ $username }}">
   <p class="gh-loading">Loading GitHub profile…</p>
