@@ -186,8 +186,20 @@ def make_front_matter(title: str, dt: date, weight: int) -> str:
 
 # ── Git helpers ───────────────────────────────────────────────────────────────
 
+# git runs commands it finds in the repo it is operating on — hooks, and config
+# keys like core.fsmonitor/core.pager that name an executable. Keeping the clone
+# out of a world-writable directory is the real fix, but disabling those vectors
+# outright means a repo that does get tampered with still can't execute anything.
+GIT_SAFE_CONFIG = [
+    "-c", "core.hooksPath=/dev/null",
+    "-c", "core.fsmonitor=",
+    "-c", "core.pager=cat",
+    "-c", "protocol.ext.allow=never",
+]
+
+
 def git(*args, cwd=None):
-    cmd = ["git"] + list(args)
+    cmd = ["git"] + GIT_SAFE_CONFIG + list(args)
     log.debug("$ %s", " ".join(cmd))
     result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
     if result.returncode != 0:
